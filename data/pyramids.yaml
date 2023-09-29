@@ -1,0 +1,1940 @@
+# TODO: What to do with iceberg?
+# - https://dz2cdn1.dzone.com/storage/temp/13733011-anotacion-2020-07-08-092812.jpg
+# - https://dzone.com/articles/testing-iceberg
+
+data:
+  - id: 1
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 2
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Bartosz colleague
+    observations: 'Go to Egypt'
+  - id: 2
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: [gui, ux]
+        size: 1
+      - label: exploratory
+        size: 1
+      - label: acceptance
+        size: 1
+      - label: api
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: layer
+    source: Bartosz colleague
+    observations: 'Drawing: users at the top layer. Cloud above it.'
+    # Kinda looks like the Rapture: Christians ascending to the heavens during the apocalypse
+  - id: 3
+    classification: null
+    describes: tests
+    includesManual: false
+    source: Bartosz colleague
+    observations:
+      Empty piece of paper with name of the user. User wants the pyramid to die a painfull death
+  - id: 4
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: manual
+        size: 1
+      - label: end-to-end
+        size: 1
+      - label: neighbour
+        size: 1
+      - label: application
+        size: 1
+      - label: api
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: layer
+    source: Bartosz colleague
+    observations: null
+  - id: 5
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: exploratory
+        size: 1
+      - label: [gui, ux]
+        size: 1
+      - label: [integration, end-to-end]
+        size: 1
+      - label: test automation
+        size: 1
+      - label: api
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: implicit
+    source: Bartosz colleague
+    observations: null
+  - id: 6
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: gui
+        size: 1
+      - label: application
+        size: 1
+      - label: backend
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Bartosz colleague
+    observations: null
+  # Tainted data
+  # Reason: Same as the pyramid I presented
+  # - id: 7
+  #   classification: pyramid
+  #   describes: tests
+  #   layers:
+  #     - end-to-end
+  #     - application
+  #     - module
+  #     - unit
+  #     - code analysis
+  #   includesManual: false
+  #   source: Bartosz colleague
+  #   observations:
+  - id: 8
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: gui
+        size: 1
+      - label: api
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Bartosz colleague
+    observations: null
+  - id: 9
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: manual
+        size: 1
+      - label: end-to-end
+        size: 1
+      - label: acceptance
+        size: 1
+      - label: application
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: on top
+    source: Bartosz colleague
+    observations: null
+  - id: 10
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: cloud
+        size: 1
+      - label: end-to-end
+        size: 1
+      - label: regression
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Bartosz colleague
+    observations: null
+  - id: 11
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: user
+        size: 1
+      - label: end-to-end
+        size: 1
+      - label: api
+        size: 0.5
+      - label: integration
+        size: 1.5
+    includesManual: implicit
+    source: Bartosz colleague
+    observations:
+      'Drawing: The glorious test pharao Bartoszotep IX. Drawing: Developers hauling stones to build
+      the pyramid'
+  - id: 12
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Bartosz colleague
+    observations: null
+  - id: 13
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: [end-to-end, gui]
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Bartosz colleague
+    observations: null
+  - id: 14
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: explicit
+    source: Bartosz colleague
+    observations:
+      Two pyramids with the same layers. One for manual and the other for automated. The manual
+      pyramid is smaller.
+  - id: 15
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: gui
+        size: 1
+      - label: [api, integration]
+        size: 2
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Bartosz colleague
+    observations: null
+  - id: 16
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: explicit
+    source: Bartosz colleague
+    observations: Pyramid is flanked by overhangs reading "manual" and "auto".
+  - id: 17
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: gui
+        size: .5
+      - label: integration
+        size: 1
+      - label: developer
+        size: 1
+    includesManual: layer
+    source: Bartosz colleague
+    observations: 'Next to the gui layer: "manual". Next to the other layers: "automated"'
+  - id: 18
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: gui
+        size: 1
+      - label: [api, integration]
+        size: 1
+      - label: application
+        size: 1
+    includesManual: false
+    source: Bartosz colleague
+    observations: null
+  - id: 19
+    classification: null
+    describes: tests
+    includesManual: false
+    source: Bartosz colleague
+    observations:
+      Circle with the word "development" in it. Reasoning given; Testing is development, not a
+      separate activity that needs a pyramid
+  - id: 20
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: manual
+        size: 1
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+      - label: design
+        size: 1
+    includesManual: layer
+    source: Bartosz colleague
+    observations:
+      The layer labeled "design" is drawn with dashed lines. The other layers with solid lines.
+  - id: 21
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Bartosz colleague
+    observations: Drawn as a 3D pyramid
+  - id: 22
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: [end-to-end, gui]
+        size: 1
+      - label: integration
+        size: 1
+      - label: component
+        size: 1
+      - label: unit
+        size: .5
+    includesManual: false
+    source: Bartosz colleague
+    observations: Drawn as a christmas tree. A few gifts lie under the tree
+  - id: 23
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: manual
+        size: .25
+      - label: gui
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: layer
+    source: Bartosz colleague
+    observations: null
+  - id: 24
+    classification: null
+    describes: tests
+    includesManual: false
+    source: Bartosz colleague
+    observations:
+      Rectangle with stacked layers [ux, ui, integration, automation]. Can't figure out what the
+      user meant
+  - id: 25
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: exploratory
+        size: 1
+      - label: functional
+        size: 1
+      - label: integration
+        size: 1
+      - label: component
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: layer
+    source: Bartosz colleague
+    observations:
+      'Next to the top 2 layers: "20%". Next to the rest of the layers: "80%". Above the pyramids,
+      people are cheering.'
+  - id: 26
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: '[unspecified]'
+        size: 3
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Bartosz colleague
+    observations: The middle layer contains a big "?"
+  - id: 27
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: manual
+        size: 1
+      - label: gui
+        size: 1
+      - label: integration
+        size: 1
+      - label: component
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: layer
+    source: Bartosz colleague
+    observations: null
+  - id: 28
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: application
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Bartosz colleague
+    observations:
+      'Only layer labels, no pyramid outline. On the back the "Limited time pyramid" which has only
+      1 layer.'
+  - id: 29
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: gui
+        size: 1
+      - label: integration
+        size: 1
+      - label: component
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Bartosz colleague
+    observations: null
+  - id: 30
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: gui
+        size: 1
+      - label: '[unspecified]'
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Bartosz colleague
+    observations: The middle layer has no label
+  - id: 31
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: gui
+        size: 1
+      - label: end-to-end
+        size: 1
+      - label: functional
+        size: 1
+      - label: application
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: implicit
+    source: Bartosz colleague
+    observations: null
+  - id: 32
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 1
+      - label: api
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Bartosz colleague
+    observations: 'In the bottom layer: "Unit tests (specific cases)"'
+  - id: 33
+    classification: trophy
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 1
+      - label: application
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Bartosz colleague
+    observations: '"Project dependent". "Away with dogmas"'
+  - id: 34
+    classification: trophy
+    describes: tests
+    layers:
+      - label: integration
+        size: 1
+      - label: application
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Bartosz colleague
+    observations: null
+  - id: 35
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: gui
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Bartosz colleague
+    observations: 'Layers are labeled (top to bottom): "E2E", "Angular", "Java int", "Java unit"'
+  - id: 36
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: pilot
+        size: 1
+      - label: [end-to-end, contract]
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Bartosz colleague
+    observations: 'Top view of a pyramid. ®️©️™️'
+  - id: 37
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: gui
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Bartosz colleague
+    observations:
+      Shaped like a car. The wheels are unit test. The body is integration tests. The top is gui
+      test. The exhaust is labeled "Automation".
+  - id: 38
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: manual
+        size: 1
+      - label: gui
+        size: 1
+      - label: api
+        size: 1
+      - label: integration
+        size: 1
+      - label: component
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: layer
+    source: Linda van de Vooren
+    observations:
+      Part of talk at Agile Testing Days 2022. Very complex and riddled with errors. e.g. component
+      tests are considered black box tests
+  - id: 39
+    classification: inverted-pyramid
+    describes: tester behaviour
+    layers:
+      - label: [collaboration, patience, creativity, agility, positive thinking]
+        size: 1
+      - label: stereotypical
+        size: 1
+      - label: reflex
+        size: 1
+      - label: survival
+        size: 1
+      - label: fight or flight
+        size: 1
+      - label: crash
+        size: 1
+    observations: Part of talk at Agile Testing Days 2022
+  - id: 40
+    classification: pyramid
+    describes: code review
+    layers:
+      - label: style
+        size: 1
+      - label: tests
+        size: 1
+      - label: documentation
+        size: 1
+      - label: implementation semantics
+        size: 1
+      - label: api semantics
+        size: 1
+    observations:
+      Part of article introducing the concept of a code review pyramid. Never found a variant of
+      this pyramid.
+  - id: 41
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: [plausibility, end-to-end]
+        size: 1
+      - label: neighbour
+        size: 1
+      - label: application
+        size: 1
+      - label: component
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    observations:
+      Includes lines next to the pyramid to show the difference between a "planning pyramid" and
+      test pyramid
+  - id: 42
+    classification: radar
+    describes: projects
+    points:
+      - label: speed
+      - label: cost
+      - label: quality
+    observations:
+      Next to speed label, it lists Fast feedback, Efficiency, Productivity. Under the graph there
+      is the text "+ sustainability!" in big red letters
+  - id: 43
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: manual
+        size: 1
+      - label: functional
+        size: 1
+      - label: contract
+        size: 1
+      - label: component
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: layer
+    observations:
+      The top layer is done in production, by a dedicated group of users The second layer is in a
+      component chain (neighbours) The rest is done locally.
+    source: Linda van de Vooren
+  - id: 44
+    classification: pyramid
+    describes: behaviour
+    layers:
+      - label: person
+        size: 1
+      - label: id
+        size: 1
+      - label: NWO
+        size: 1
+      - label: KVC
+        size: 1
+      - label: behaviour
+        size: 1
+      - label: environment
+        size: 1
+    observations: There is very little context, so properly naming the layers is almost impossible.
+    source: Linda van de Vooren
+  - id: 45
+    classification: inverted-pyramid
+    describes: road users
+    layers:
+      - label: pedestrians
+        size: 1
+      - label: cyclists
+        size: 1
+      - label: public transport
+        size: 1
+      - label: commercial vehicles
+        size: 1
+      - label: cars
+        size: 1
+    source: Dutch road design bible
+    observations: Image includes text description
+  - id: 46
+    classification: pyramid
+    describes: violence
+    layers:
+      - label: murder
+        size: 1
+      - label: rape
+        size: 1
+      - label: physical
+        size: 1
+      - label: touching
+        size: 1
+      - label: approaching
+        size: 1
+      - label: ignoring
+        size: 1
+      - label: verbal
+        size: 1
+      - label: unsavory
+        size: 1
+    source: Linda van de Vooren
+    observations: Pyramid made of people. Clearly focused on voilence against women.
+  - id: 47
+    classification: pyramid
+    describes: tests
+    includesManual: false
+    layers:
+      - label: null
+        size: 1
+      - label: multi-app
+        size: 1
+      - label: application
+        size: 1
+      - label: component
+        size: 1
+      - label: unit
+        size: 1
+    source: Linda van de Vooren
+    observations:
+      The top layer is empty to signal not doing end-to-end tests. The second layer is handled by a
+      central team. All other layers are handled by application teams.
+  - id: 48
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://automationpanda.com/2018/08/01/the-testing-pyramid/
+    observations: null
+  - id: 49
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://semaphoreci.com/blog/testing-pyramid
+    observations: null
+  - id: 50
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: [manual, exploratory]
+        size: 1
+      - label: [gui, api]
+        size: 1
+      - label: integration
+        size: 1
+      - label: component
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: layer
+    source: Google
+    url: https://www.onpathtesting.com/blog/qa-testers-what-is-the-agile-testing-pyramid
+    observations: null
+  - id: 51
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: [gui, end-to-end]
+        size: 1
+      - label: integration
+        size: 1
+      - label: [component, contract]
+        size: 1
+      - label: unit
+        size: 2
+    includesManual: false
+    source: Google
+    url: https://www.methodsandtools.com/archive/testpyramid.php
+    observations: null
+  - id: 52
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: manual
+        size: 1
+      - label: system
+        size: 1
+      - label: integration
+        size: 1
+      - label: component
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: layer
+    source: Google
+    url: https://worldofagile.com/blog/agile-test-pyramid/
+    observations: null
+  - id: 53
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: gui
+        size: 1
+      - label: api
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://martinfowler.com/bliki/TestPyramid.html
+    observations: null
+  - id: 54
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: manual
+        size: 1
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: on top
+    source: Google
+    url: https://www.browserstack.com/guide/testing-pyramid-for-test-automation
+    observations: The end-to-end layer is thinking about manual testing
+  - id: 55
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: gui
+        size: 1
+      - label: [api, integration]
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://anymindgroup.com/news/tech-blog/15053/
+    observations: null
+  - id: 56
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: system integration
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: layer
+    source: Google
+    url: https://www.agileconnection.com/article/eroding-agile-test-pyramid
+    observations: Somehow this one has 2 layers labeled "integration". One says "System Integration
+      Tests", the other "Integration Tests". The exact difference is not discussed in the article.
+
+      The unit test layer has been "eroded" in this pyramid, leaving a partial unit test layer.
+  - id: 57
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: manual
+        size: 1
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 1
+      - label: component
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: on top
+    source: Google
+    url: https://www.pgs-soft.com/blog/test-pyramid-in-practice/
+    observations: The manual layer is shaped like a cloud.
+
+      Every layer describes which roles are responsible. manual=QA, end-to-end=QA,
+      integration=DEV+QA, component=DEV+QA, unit=DEV.
+
+      For the integration and component layers, a diagram is added to show the frontend-backend
+      relationship during testing.
+  - id: 58
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: gui
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://medium.com/android-testing-daily/the-3-tiers-of-the-android-test-pyramid-c1211b359acd
+    observations:
+      Each layer contains tools. gui=Espressio, Robotium, UI Automator. Integration=Roboelectric.
+      Unit=JUnit, Mockito, PowerMock.
+  - id: 59
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: manual
+        size: 1
+      - label: smoke
+        size: 1
+      - label: monitoring
+        size: 1
+      - label: integration
+        size: 1
+      - label: acceptance
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: layer
+    source: Google
+    url: https://medium.com/contino-engineering/knowthe-testing-pyramid-42a4b3573988
+    observations: null
+  - id: 60
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: manual
+        size: 1
+      - label: gui
+        size: 1
+      - label: api
+        size: 1
+      - label: [unit, component]
+        size: 1
+    includesManual: on top
+    source: Google
+    url: https://www.testmonitor.com/blog/using-the-test-automation-pyramid-framework-for-agile-teams
+    observations: The manual layer is shaped like cloud
+  - id: 61
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: gui
+        size: 1
+      - label: api
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://theqalead.com/topics/testing-pyramid/
+    observations: Very nice looking pyramid.
+  - id: 62
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://betterprogramming.pub/the-test-pyramid-80d77535573
+    observations: null
+  - id: 63
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: manual
+        size: 1
+      - label: gui
+        size: 1
+      - label: system
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 2
+    includesManual: layer
+    source: Google
+    url: https://www.nicepng.com/ourpic/u2e6i1o0r5i1e6i1_the-test-pyramid-attitude-skill-and-knowledge-model/
+    observations: Layers have colored gradient. Bottom layer is green, top layer is red.
+  - id: 64
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: gui
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://engineering.teknasyon.com/test-pyramid-and-manual-testing-a3c6135b8043
+    observations: null
+  - id: 65
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: gui
+        size: 1
+      - label: api
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://www.deeperthanblue.co.uk/the-test-automation-pyramid/
+    observations: null
+  - id: 66
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: [manual, exploratory]
+        size: 1
+      - label: [gui, end-to-end]
+        size: 1
+      - label: [integration, acceptance, regression]
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: layer
+    source: Google
+    url: https://www.perfecto.io/blog/testing-pyramid
+    observations: Around the model, for each layer it details real phones vs emulators.
+
+      There is a random DevOps model diagram next to the pyramid.
+  - id: 67
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://www.lambdatest.com/learning-hub/test-pyramid
+    observations: null
+  - id: 68
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: gui
+        size: 1
+      - label: api
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://cucumber.io/blog/bdd/eviscerating-the-test-automation-pyramid/
+    observations: null
+  - id: 69
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: '[unspecified]'
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://cucumber.io/blog/bdd/eviscerating-the-test-automation-pyramid/
+    observations: null
+  - id: 70
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: manual
+        size: 1
+      - label: [gui, end-to-end]
+        size: 1
+      - label: api
+        size: 1
+      - label: integration
+        size: 1
+      - label: component
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: on top
+    source: Google
+    url: https://getmason.io/blog/post/test-pyramid
+    observations: The manual layer is shaped like a cloud
+  - id: 71
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: manual
+        size: 1
+      - label: system
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 2
+    includesManual: layer
+    source: Google
+    url: https://codecoach.co.nz/follow-the-test-pyramid/
+    observations: null
+  - id: 72
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: gui
+        size: 1
+      - label: service
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://khushiy.com/2019/02/07/test-pyramid-antipatterns/
+    observations: Next to each layer, there's an explanation.
+  - id: 73
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: gui
+        size: 1
+      - label: service
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://martinfowler.com/articles/practical-test-pyramid.html
+    observations: null
+  - id: 74
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: [acceptance, end-to-end]
+        size: 1
+      - label: [integration, api, service]
+        size: 1
+      - label: [unit, component, structure]
+        size: 2
+    includesManual: false
+    source: Google
+    url: https://academy.pega.com/topic/test-pyramid/v1
+    observations: Each layer has a percentage. acceptance=10%. integration=20%. unit=70%
+  - id: 75
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: [manual, exploratory]
+        size: 1
+      - label: system
+        size: 1
+      - label: integration
+        size: 1
+      - label: component
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: layer
+    source: Google
+    url: https://dzone.com/articles/rest-apis-test-pyramid
+    observations:
+      Each layer has a percentage. manual=5%, system=10%, integration=20%, component=50%, unit=100%.
+      The percentages add up to 185%.
+  - id: 76
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: exploratory
+        size: 1
+      - label: gui
+        size: 1
+      - label: acceptance
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: on top
+    source: Google
+    url: https://www.agilecoachjournal.com/2014-01-28/the-agile-testing-pyramid
+    observations: Image also includes the inverted pyramid anti-pattern
+  - id: 77
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: manual
+        size: 1
+      - label: gui
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: on top
+    source: Google
+    url: https://leaddev.com/agile-other-ways-working/demystifying-software-engineering-test-pyramid
+    observations: The manual layer is shaped like a cloud.
+  - id: 78
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: gui
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://www.botplayautomation.com/post/how-to-implement-the-test-pyramid-in-automation-and-manual-testing
+    observations: null
+  - id: 79
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: manual
+        size: 1
+      - label: gui
+        size: 1
+      - label: [api, service, functional]
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: on top
+    source: Google
+    url: https://borntesters.com/blog/test-pyramid-and-types-of-testing/
+    observations: The manual layer is shaped like a cloud.
+
+      A pyramid with three sides. Main side is described in layers.
+
+      Left side contains the following words in random places. Performance, Usability, Reliability,
+      Maintainability, Functionality
+
+      The right side contains three layers. UAT, System, Unit
+  - id: 80
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: gui
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://www.linkedin.com/pulse/time-turn-test-pyramid-its-head-paul-chorley/
+    observations: null
+  - id: 81
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: manual
+        size: 1
+      - label: gui
+        size: 1
+      - label: [api, service, functional]
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: on top
+    source: Google
+    url: https://leaddev.com/agile-other-ways-working/demystifying-software-engineering-test-pyramid
+    observations: The manual layer is shaped like a cloud.
+
+      A pyramid with three sides. Main side is described in layers.
+
+      Left side contains the following words in random places. Performance, Usability, Reliability,
+      Maintainability, Functionality
+
+      The right side contains three layers. UAT, System, Unit
+  - id: 82
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: system
+        size: 1
+      - label: integration
+        size: 1
+      - label: [contract, functional]
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://failfastmoveon.blogspot.com/2018/06/test-pyramid-explained-part-1.html
+    observations: Layers have colored gradient. Bottom layer is green, top layer is red.
+  - id: 83
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: [manual, exploratory]
+        size: 1
+      - label: gui
+        size: 1
+      - label: service
+        size: 1
+      - label: contract
+        size: 1
+      - label: component
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: on top
+    source: Google
+    url: https://medium.com/software-qe/test-automation-pyramid-2021-version-c299cb224c80
+    observations: The manual/exploratory layer is shaped like two clouds.
+
+      Each layer has some tools assigned to it.
+
+      The contract test layer has sparkles on it.
+  - id: 84
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://sketchingdev.co.uk/sketchnotes/testing-pyramid.html
+    observations: Has an excellent visual description of each layer.
+
+      Arrow to end-to-end layer "Fewer of these"
+
+      Arrow to unit layer "More of these"
+  - id: 85
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://www.headspin.io/blog/the-testing-pyramid-simplified-for-one-and-all
+    observations: null
+  - id: 86
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: acceptance
+        size: 1
+      - label: solution
+        size: 1
+      - label: system integration
+        size: 1
+      - label: system
+        size: 1
+      - label: integration
+        size: 1
+      - label: [unit, component]
+        size: 1
+    includesManual: false
+    source: Linda van de Vooren
+    observations: Somehow this one has 2 layers labeled "integration". One says "System Integration
+      Tests", the other "Integration Tests". The difference is unclear.
+
+      The bottom layer is green, the rest blue
+
+      The bottom 2 layers are labeled "Whitebox tests". The ones above are labeled "Blackbox tests".
+  - id: 87
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: acceptance
+        size: 1
+      - label: system
+        size: 1
+      - label: regression
+        size: 1
+      - label: smoke
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: on top
+    source: Linda van de Vooren
+    observations: Fancy 3D graphics
+  - id: 88
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: gui
+        size: 1
+      - label: api
+        size: 1
+      - label: integration
+        size: 1
+      - label: component
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: on top
+    source: Irene van den Berg
+    observations: All layers explicitly state that the tests are automated
+  - id: 89
+    classification: trophy
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 2
+      - label: unit
+        size: 1
+      - label: static
+        size: 2
+    includesManual: false
+    source: Google
+    url: https://kentcdodds.com/blog/the-testing-trophy-and-testing-classifications
+    observations: null
+  - id: 90
+    classification: trophy
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 2
+      - label: unit
+        size: 1
+      - label: static
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://testingjavascript.com/
+    observations: As far as I know, the original source of the trophy
+  - id: 91
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: system
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://symflower.com/en/company/blog/2023/what-is-the-testing-trophy/
+    observations: null
+  - id: 92
+    classification: trophy
+    describes: tests
+    layers:
+      - label: system
+        size: 1
+      - label: integration
+        size: 2
+      - label: unit
+        size: 1
+      - label: static
+        size: 2
+    includesManual: false
+    source: Google
+    url: https://symflower.com/en/company/blog/2023/what-is-the-testing-trophy/
+    observations: null
+  - id: 93
+    classification: trophy
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 2
+      - label: unit
+        size: 2
+      - label: static
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://subscription.packtpub.com/book/web-development/9781838642655/2/ch02lvl1sec08/understanding-the-testing-pyramid-and-trophy
+    observations: null
+  - id: 94
+    classification: trophy
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 2
+      - label: unit
+        size: 1
+      - label: static
+        size: 2
+    includesManual: false
+    source: Google
+    url: https://itnext.io/front-end-testing-strategy-5fddfd463feb
+    observations: null
+  - id: 95
+    classification: trophy
+    describes: tests
+    layers:
+      - label: manual
+        size: 1
+      - label: performance
+        size: 1
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 2
+      - label: [unit, accessibility, visual]
+        size: 1
+      - label: static
+        size: 2
+    includesManual: layer
+    source: Google
+    url: https://dev.to/borysshulyak/high-confidence-testing-levels-1n1m
+    observations: null
+  - id: 96
+    classification: trophy
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 2
+      - label: unit
+        size: 1
+      - label: static
+        size: 2
+    includesManual: false
+    source: Google
+    url: https://twitter.com/mrjedmao/status/1085750574996312064
+    observations: |
+      Next to the end-to-end layer: Cypress
+
+      Next to the integration and unit layers: Jest
+
+      Next to the static layer: Typescript
+  - id: 97
+    classification: trophy
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 2
+      - label: unit
+        size: 1
+      - label: static
+        size: 2
+    includesManual: false
+    source: Google
+    url: https://gitfeatures.com/acceptance-criteria
+    observations: null
+  - id: 98
+    classification: trophy
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: system
+        size: 1
+      - label: unit
+        size: 1
+      - label: static
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://betterprogramming.pub/a-visual-tutorial-on-every-type-of-test-you-can-write-ec9b83edcf35
+    observations: null
+  - id: 99
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: system
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://betterprogramming.pub/a-visual-tutorial-on-every-type-of-test-you-can-write-ec9b83edcf35
+    observations: null
+  - id: 100
+    classification: trophy
+    describes: tests
+    layers:
+      - label: [end-to-end, visual]
+        size: 1
+      - label: [integration, visual]
+        size: 2
+      - label: [unit, visual]
+        size: 2
+      - label: static
+        size: 2
+    includesManual: false
+    source: Google
+    url: https://www.chromatic.com/blog/introducing-visual-testing-for-playwright/
+    observations: |
+      Visual testing is a vertical layer, the rest is vertical. The visual layer spans the top three
+      horizontal layers
+  - id: 101
+    classification: trophy
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 2
+      - label: unit
+        size: 1
+      - label: static
+        size: 1
+      - label: compiler
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://www.youtube.com/watch?v=t-HmXomntCA&ab_channel=VMwareTanzu
+    observations: |
+      To both sides of the trophy with arrows coming from the end-to-end layer: External tests
+  - id: 102
+    classification: trophy
+    describes: tests
+    layers:
+      - label: gui
+        size: 1
+      - label: integration
+        size: 2
+      - label: unit
+        size: 1
+      - label: static
+        size: 2
+    includesManual: false
+    source: Google
+    url: https://www.smashingmagazine.com/2023/09/long-live-test-pyramid/
+    observations: null
+  - id: 103
+    classification: trophy
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 2
+      - label: unit
+        size: 1
+      - label: static
+        size: 2
+    includesManual: false
+    source: Google
+    url: https://blog.cybozu.io/entry/2023/05/29/090000
+    observations: It's a double trophy!
+  - id: 104
+    classification: diamond
+    describes: tests
+    layers:
+      - label: manual
+        size: 1
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 2
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://www.crispy-engineering.com/p/why-test-diamond-model-makes-sense
+    observations: null
+  - id: 105
+    classification: diamond
+    describes: tests
+    layers:
+      - label: manual
+        size: 1
+      - label: system
+        size: 1
+      - label: integration
+        size: 1
+      - label: component
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: layer
+    source: Google
+    url: https://leeorengel.com/software-testing-best-practices/
+    observations: null
+  - id: 106
+    classification: diamond
+    describes: tests
+    layers:
+      - label: [gui, end-to-end]
+        size: 1
+      - label: integration
+        size: 2
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://eason.blog/posts/2020/03/test-automation-diamond/
+    observations: null
+  - id: 107
+    classification: diamond
+    describes: tests
+    layers:
+      - label: [smoke, exploratory, end-to-end]
+        size: 1
+      - label: [contract, integration]
+        size: 1
+      - label: acceptance
+        size: 4
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: http://tpierrain.blogspot.com/2021/03/outside-in-diamond-tdd-1-style-made.html
+    observations: In the article it states that "[acceptance tests] are Component/API tests"
+  - id: 108
+    classification: diamond
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 2
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://testerstories.com/2020/09/test-shapes/
+    observations: null
+  - id: 109
+    classification: diamond
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 2
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://www.infoq.com/articles/unit-tests-testing-pyramid/
+    observations: null
+  - id: 110
+    classification: diamond
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 2
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://www.code4it.dev/architecture-notes/testing-pyramid-vs-testing-diamond/
+    observations: null
+  - id: 111
+    classification: diamond
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://ritesh-kapoor.medium.com/testing-automation-what-are-pyramids-and-diamonds-67494fec7c55
+    observations: null
+  - id: 112
+    classification: diamond
+    describes: tests
+    layers:
+      - label: manual
+        size: 1
+      - label: gui
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: on top
+    source: Google
+    url: http://toddlittleweb.com/wordpress/2014/06/23/the-testing-diamond-and-the-pyramid-2/
+    observations: The manual layer is shaped like a cloud.
+  - id: 113
+    classification: diamond
+    describes: tests
+    layers:
+      - label: manual
+        size: 1
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 2
+      - label: unit
+        size: 1
+    includesManual: layer
+    source: Google
+    url: https://jondot.medium.com/how-to-test-a-full-react-app-using-nothing-but-storybook-15f4c584e30a
+    observations: null
+  - id: 114
+    classification: diamond
+    describes: tests
+    layers:
+      - label: plan
+        size: 1
+      - label: unit
+        size: 1
+      - label: build
+        size: 1
+      - label: [integration, acceptance]
+        size: 1
+      - label: system
+        size: 1
+      - label: smoke
+        size: 1
+      - label: operate
+        size: 1
+      - label: monitoring
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://www.linkedin.com/pulse/test-automation-from-pyramid-diamond-davide-cilano/
+    observations: null
+  - id: 115
+    classification: diamond
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: component
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://medium.com/fiverr-engineering/my-tests-are-broken-again-part-1-understanding-the-problem-c8b88a77578d
+    observations: null
+  - id: 116
+    classification: diamond
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 2
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://aws.amazon.com/blogs/compute/getting-started-with-testing-serverless-applications/
+    observations: null
+  - id: 117
+    classification: diamond
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 2
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://engineering.atspotify.com/2018/01/testing-of-microservices/
+    observations: The end-to-end layer is actually called "integrated". Based on the accompanying
+      article, this is a synonymous.
+
+      The unit layer is actually called "implementation details". Based on the accompanying article,
+      this is a synonymous.
+  - id: 118
+    classification: diamond
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 2
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://dev.to/aws-builders/testing-serverless-apps-has-never-been-easier-442m
+    observations: null
+  - id: 119
+    classification: diamond
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 1
+      - label: contract
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://www.accelq.com/blog/the-age-of-microservices-testing/
+    observations: null
+  - id: 120
+    classification: crab
+    describes: tests
+    body: [functional, visual, end-to-end]
+    legs:
+      - label: component
+        size: 1
+      - label: unit
+        size: 1
+      - label: api
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://changelog.com/posts/the-testing-pyramid-should-look-more-like-a-crab
+    observations: Created by one of the founders/owners of Cypress
+  - id: 121
+    classification: rocket
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+      - label: static
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://www.pulumi.com/blog/infrastructure-testing-concepts/
+    observations: Almost identical to the test trophy
