@@ -459,7 +459,7 @@ data:
     layers:
       - label: gui
         size: 1
-      - label: '[unspecified]'
+      - label: null
         size: 1
       - label: unit
         size: 1
@@ -1128,7 +1128,7 @@ data:
     classification: pyramid
     describes: tests
     layers:
-      - label: '[unspecified]'
+      - label: null
         size: 1
     includesManual: false
     source: Google
