@@ -2058,3 +2058,53 @@ data:
     url: https://www.pulumi.com/blog/infrastructure-testing-concepts/
     observations: Almost identical to the test trophy
     tags: ['unique', 'original']
+  - id: 122
+    classification: pyramid
+    describes: team dysfunctions
+    layers:
+      - label: results
+        size: 1
+      - label: accountability
+        size: 1
+      - label: commitment
+        size: 1
+      - label: conflict
+        size: 1
+      - label: trust
+        size: 1
+    includesManual: false
+    source: Linda van de Vooren
+    observations: The ultimate success sheet for leaders
+    tags: []
+  - id: 123
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: gui
+        size: 1
+      - label: api
+        size: 1
+      - label: component
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Linda van de Vooren
+    observations:
+      The bottom 2 layers have a check mark. The api layer a question mark. The top layer a red
+      cross.
+    tags: []
+  - id: 124
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: api
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Linda van de Vooren
+    observations: Snow balls
+    tags: []
