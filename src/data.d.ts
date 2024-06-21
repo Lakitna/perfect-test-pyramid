@@ -3,6 +3,7 @@ export interface DataFile {
         | PyramidData
         | TrophyData
         | InvertedPyramidData
+        | SidewaysPyramidData
         | RadarData
         | DiamondData
         | CrabData
@@ -25,6 +26,10 @@ export interface Layer {
 }
 export interface Layered {
     layers: Layer[];
+}
+
+export interface Columned {
+    columns: Layer[];
 }
 
 export interface DescribesTests {
@@ -62,4 +67,8 @@ export interface RocketData extends BaseData, Layered {
 
 export interface NullData extends BaseData {
     classification: null;
+}
+
+export interface SidewaysPyramidData extends BaseData, Columned {
+    classification: 'sideways-pyramid';
 }

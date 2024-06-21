@@ -594,7 +594,7 @@ data:
       - label: unit
         size: 1
     includesManual: layer
-    source: Linda van de Vooren
+    source: Linda
     observations:
       Part of talk at Agile Testing Days 2022. Very complex and riddled with errors. e.g. component
       tests are considered black box tests
@@ -683,7 +683,7 @@ data:
     observations:
       The top layer is done in production, by a dedicated group of users The second layer is in a
       component chain (neighbours) The rest is done locally.
-    source: Linda van de Vooren
+    source: Linda
     tags: []
   - id: 44
     classification: pyramid
@@ -702,7 +702,7 @@ data:
       - label: environment
         size: 1
     observations: There is very little context, so properly naming the layers is almost impossible.
-    source: Linda van de Vooren
+    source: Linda
     tags: []
   - id: 45
     classification: inverted-pyramid
@@ -741,7 +741,7 @@ data:
         size: 1
       - label: unsavory
         size: 1
-    source: Linda van de Vooren
+    source: Linda
     observations: Pyramid made of people. Clearly focused on voilence against women.
     tags: []
   - id: 47
@@ -759,7 +759,7 @@ data:
         size: 1
       - label: unit
         size: 1
-    source: Linda van de Vooren
+    source: Linda
     observations:
       The top layer is empty to signal not doing end-to-end tests. The second layer is handled by a
       central team. All other layers are handled by application teams.
@@ -1446,7 +1446,7 @@ data:
       - label: [unit, component]
         size: 1
     includesManual: false
-    source: Linda van de Vooren
+    source: Linda
     observations: Somehow this one has 2 layers labeled "integration". One says "System Integration
       Tests", the other "Integration Tests". The difference is unclear.
 
@@ -1471,7 +1471,7 @@ data:
       - label: unit
         size: 1
     includesManual: on top
-    source: Linda van de Vooren
+    source: Linda
     observations: Fancy 3D graphics
     tags: []
   - id: 88
@@ -2073,7 +2073,7 @@ data:
       - label: trust
         size: 1
     includesManual: false
-    source: Linda van de Vooren
+    source: Linda
     observations: The ultimate success sheet for leaders
     tags: []
   - id: 123
@@ -2089,7 +2089,7 @@ data:
       - label: unit
         size: 1
     includesManual: false
-    source: Linda van de Vooren
+    source: Linda
     observations:
       The bottom 2 layers have a check mark. The api layer a question mark. The top layer a red
       cross.
@@ -2105,6 +2105,233 @@ data:
       - label: unit
         size: 1
     includesManual: false
-    source: Linda van de Vooren
+    source: Linda
     observations: Snow balls
+    tags: []
+  - id: 125
+    classification: pyramid
+    describes: sound
+    layers:
+      - label: ['piccolo', 'flute', 'oboe']
+        size: 1
+      - label: ['trumpet', 'clarinet', 'alto sax']
+        size: 1
+      - label: ['french horn', 'tenor sax', 'trombone']
+        size: 1
+      - label: ['baritone', 'bassoon', 'bass clarinet', 'barl sax', 'tuba']
+        size: 1
+    source: Linda
+    observations: null
+    tags: []
+  - id: 126
+    classification: pyramid
+    describes: competence
+    layers:
+      - label: unconscious competent
+        size: 1
+      - label: conscious competent
+        size: 1
+      - label: conscious incompetent
+        size: 1
+      - label: unconscious incompetent
+        size: 1
+    source: Linda
+    observations: null
+    tags: []
+  - id: 127
+    classification: inverted-pyramid
+    describes: customer journey
+    layers:
+      - label: awareness
+        size: 1
+      - label: consideration
+        size: 1
+      - label: conversion
+        size: 1
+      - label: loyalty
+        size: 1
+      - label: advocacy
+        size: 1
+    source: Linda
+    observations: null
+    tags: []
+  - id: 128
+    classification: pyramid
+    describes: production development reliability
+    layers:
+      - label: product
+        size: 1
+      - label: development
+        size: 1
+      - label: planning
+        size: 1
+      - label: ['test', 'release']
+        size: 1
+      - label: postmortem
+        size: 1
+      - label: incident response
+        size: 1
+      - label: monitoring
+        size: 1
+    source: Dyon
+    observations: null
+    tags: []
+  - id: 129
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: gui
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Sebastiaan
+    url: https://thetestlynx.wordpress.com/2024/03/19/the-sideways-test-pyramid/
+    observations: Used to introduce the ideas of 130.
+    tags: []
+  - id: 130
+    classification: sideways-pyramid
+    describes: test order
+    columns:
+      - label: unit
+        size: 1
+      - label: integration
+        size: 1
+      - label: gui
+        size: 1
+    includesManual: false
+    source: Sebastiaan
+    url: https://thetestlynx.wordpress.com/2024/03/19/the-sideways-test-pyramid/
+    observations:
+      Used as a visual aid while explaining in which order you should run tests in a CI pipeline.
+    tags: []
+  - id: 131
+    classification: inverted-pyramid
+    describes: self-awareness
+    layers:
+      - label: what are you doing
+        size: 1
+      - label: what are you feeling
+        size: 1
+      - label: where are your blindspots
+        size: 1
+    source: Linda
+    observations: null
+    tags: []
+  - id: 132
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: gui
+        size: 1
+      - label: service
+        size: 1
+      - label: unit
+        size: 1
+    source: Succeeding With Agile - Mike Cohn
+    observations: As far as I know, the original
+    tags: [original]
+    includesManual: false
+  - id: 133
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: [system, integration]
+        size: 1
+      - label: [component, integration]
+        size: 1
+      - label: component
+        size: 1
+      - label: unit
+        size: 1
+    source: Linda
+    observations:
+      Somehow there are 2 layers with `component`. `component integration` and `component`
+    tags: []
+    includesManual: false
+  - id: 134
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: gui
+        size: 1
+      - label: service
+        size: 1
+      - label: unit
+        size: 1
+    source: Linda
+    observations: null
+    tags: []
+    includesManual: false
+  # Tainted data: A teams current pyramid. Not a desired pyramid.
+  # - id: 135
+  #   classification: inverted-pyramid
+  #   describes: tests
+  #   layers:
+  #     - label: [end-to-end, manual, automated]
+  #       size: 1
+  #     - label: integration
+  #       size: 1
+  #     - label: unknown
+  #       size: 1
+  #   source: Linda
+  #   observations: A teams current pyramid. Not a desired pyramid.
+  #   tags: []
+  #   includesManual: explicit
+  - id: 136
+    classification: pyramid
+    describes: learning
+    layers:
+      - label: lecture
+        size: 1
+      - label: reading
+        size: 1
+      - label: audio-visual
+        size: 1
+      - label: domonstration
+        size: 1
+      - label: discussion
+        size: 1
+      - label: practice
+        size: 1
+      - label: [teach, use]
+        size: 1
+    source: Linda
+    observations: null
+    tags: []
+  - id: 137
+    classification: pyramid
+    describes: leaders
+    layers:
+      - label: leader
+        size: 1
+      - label: management
+        size: 1
+      - label: employees
+        size: 1
+      - label: customers
+        size: 1
+    source: Linda
+    observations: Traditional leader
+    tags: []
+  - id: 138
+    classification: inverted-pyramid
+    describes: leaders
+    layers:
+      - label: customers
+        size: 1
+      - label: employees
+        size: 1
+      - label: management
+        size: 1
+      - label: leader
+        size: 1
+    source: Linda
+    observations: Servant leader
     tags: []

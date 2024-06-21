@@ -12,6 +12,7 @@ import {
     PyramidData,
     RadarData,
     RocketData,
+    SidewaysPyramidData,
     TrophyData,
 } from './data';
 
@@ -46,6 +47,11 @@ export async function readData(filePath: string): Promise<DataFile> {
                     return toTestBaseData(dataPoint) as InvertedPyramidData & DescribesTests;
                 }
                 return toBaseData(dataPoint) as InvertedPyramidData;
+            case 'sideways-pyramid':
+                if (dataPoint.describes === 'tests') {
+                    return toTestBaseData(dataPoint) as SidewaysPyramidData & DescribesTests;
+                }
+                return toBaseData(dataPoint) as SidewaysPyramidData;
             case 'radar':
                 if (dataPoint.describes === 'tests') {
                     return toTestBaseData(dataPoint) as RadarData & DescribesTests;
