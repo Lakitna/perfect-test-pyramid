@@ -17,6 +17,7 @@ data:
     source: Bartosz colleague
     observations: 'Go to Egypt'
     tags: []
+    notDuplicateWith: [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85]
   - id: 2
     classification: pyramid
     describes: tests
@@ -200,6 +201,7 @@ data:
     source: Bartosz colleague
     observations: null
     tags: []
+    notDuplicateWith: [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85]
   - id: 13
     classification: pyramid
     describes: tests
@@ -230,6 +232,7 @@ data:
       Two pyramids with the same layers. One for manual and the other for automated. The manual
       pyramid is smaller.
     tags: []
+    notDuplicateWith: [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85]
   - id: 15
     classification: pyramid
     describes: tests
@@ -244,6 +247,7 @@ data:
     source: Bartosz colleague
     observations: null
     tags: []
+    notDuplicateWith: [15, 55]
   - id: 16
     classification: pyramid
     describes: tests
@@ -258,6 +262,7 @@ data:
     source: Bartosz colleague
     observations: Pyramid is flanked by overhangs reading "manual" and "auto".
     tags: []
+    notDuplicateWith: [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85]
   - id: 17
     classification: pyramid
     describes: tests
@@ -328,6 +333,7 @@ data:
     source: Bartosz colleague
     observations: Drawn as a 3D pyramid
     tags: []
+    notDuplicateWith: [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85]
   - id: 22
     classification: pyramid
     describes: tests
@@ -360,6 +366,7 @@ data:
     source: Bartosz colleague
     observations: null
     tags: []
+    notDuplicateWith: [23, 77]
   - id: 24
     classification: null
     describes: tests
@@ -562,7 +569,7 @@ data:
     observations: 'Top view of a pyramid. ®️©️™️'
     tags: []
   - id: 37
-    classification: pyramid
+    classification: null
     describes: tests
     layers:
       - label: gui
@@ -779,6 +786,7 @@ data:
     url: https://automationpanda.com/2018/08/01/the-testing-pyramid/
     observations: null
     tags: []
+    notDuplicateWith: [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85]
   - id: 49
     classification: pyramid
     describes: tests
@@ -794,6 +802,7 @@ data:
     url: https://semaphoreci.com/blog/testing-pyramid
     observations: null
     tags: []
+    notDuplicateWith: [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85]
   - id: 50
     classification: pyramid
     describes: tests
@@ -864,6 +873,7 @@ data:
     url: https://martinfowler.com/bliki/TestPyramid.html
     observations: null
     tags: ['respected creator']
+    notDuplicateWith: [53, 61, 65, 68]
   - id: 54
     classification: pyramid
     describes: tests
@@ -896,6 +906,7 @@ data:
     url: https://anymindgroup.com/news/tech-blog/15053/
     observations: null
     tags: []
+    notDuplicateWith: [15, 55]
   - id: 56
     classification: pyramid
     describes: tests
@@ -958,6 +969,7 @@ data:
       Each layer contains tools. gui=Espressio, Robotium, UI Automator. Integration=Roboelectric.
       Unit=JUnit, Mockito, PowerMock.
     tags: []
+    notDuplicateWith: [58, 64, 78, 80, 129]
   - id: 59
     classification: pyramid
     describes: tests
@@ -1011,6 +1023,7 @@ data:
     url: https://theqalead.com/topics/testing-pyramid/
     observations: Very nice looking pyramid.
     tags: []
+    notDuplicateWith: [53, 61, 65, 68]
   - id: 62
     classification: pyramid
     describes: tests
@@ -1026,6 +1039,7 @@ data:
     url: https://betterprogramming.pub/the-test-pyramid-80d77535573
     observations: null
     tags: []
+    notDuplicateWith: [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85]
   - id: 63
     classification: pyramid
     describes: tests
@@ -1060,6 +1074,7 @@ data:
     url: https://engineering.teknasyon.com/test-pyramid-and-manual-testing-a3c6135b8043
     observations: null
     tags: []
+    notDuplicateWith: [58, 64, 78, 80, 129]
   - id: 65
     classification: pyramid
     describes: tests
@@ -1075,6 +1090,7 @@ data:
     url: https://www.deeperthanblue.co.uk/the-test-automation-pyramid/
     observations: null
     tags: []
+    notDuplicateWith: [53, 61, 65, 68]
   - id: 66
     classification: pyramid
     describes: tests
@@ -1109,6 +1125,7 @@ data:
     url: https://www.lambdatest.com/learning-hub/test-pyramid
     observations: null
     tags: []
+    notDuplicateWith: [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85]
   - id: 68
     classification: pyramid
     describes: tests
@@ -1124,6 +1141,7 @@ data:
     url: https://cucumber.io/blog/bdd/eviscerating-the-test-automation-pyramid/
     observations: null
     tags: []
+    notDuplicateWith: [53, 61, 65, 68]
   - id: 69
     classification: pyramid
     describes: tests
@@ -1188,6 +1206,7 @@ data:
     url: https://khushiy.com/2019/02/07/test-pyramid-antipatterns/
     observations: Next to each layer, there's an explanation.
     tags: []
+    notDuplicateWith: [72, 73, 132]
   - id: 73
     classification: pyramid
     describes: tests
@@ -1203,6 +1222,7 @@ data:
     url: https://martinfowler.com/articles/practical-test-pyramid.html
     observations: null
     tags: []
+    notDuplicateWith: [72, 73, 132]
   - id: 74
     classification: pyramid
     describes: tests
@@ -1273,6 +1293,7 @@ data:
     url: https://leaddev.com/agile-other-ways-working/demystifying-software-engineering-test-pyramid
     observations: The manual layer is shaped like a cloud.
     tags: []
+    notDuplicateWith: [23, 77]
   - id: 78
     classification: pyramid
     describes: tests
@@ -1288,6 +1309,7 @@ data:
     url: https://www.botplayautomation.com/post/how-to-implement-the-test-pyramid-in-automation-and-manual-testing
     observations: null
     tags: []
+    notDuplicateWith: [58, 64, 78, 80, 129]
   - id: 79
     classification: pyramid
     describes: tests
@@ -1312,6 +1334,7 @@ data:
 
       The right side contains three layers. UAT, System, Unit
     tags: ['mixed concepts']
+    notDuplicateWith: [79, 81]
   - id: 80
     classification: pyramid
     describes: tests
@@ -1327,6 +1350,7 @@ data:
     url: https://www.linkedin.com/pulse/time-turn-test-pyramid-its-head-paul-chorley/
     observations: null
     tags: []
+    notDuplicateWith: [58, 64, 78, 80, 129]
   - id: 81
     classification: pyramid
     describes: tests
@@ -1351,6 +1375,7 @@ data:
 
       The right side contains three layers. UAT, System, Unit
     tags: ['mixed concepts']
+    notDuplicateWith: [79, 81]
   - id: 82
     classification: pyramid
     describes: tests
@@ -1414,6 +1439,7 @@ data:
 
       Arrow to unit layer "More of these"
     tags: [pretty]
+    notDuplicateWith: [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85]
   - id: 85
     classification: pyramid
     describes: tests
@@ -1429,6 +1455,7 @@ data:
     url: https://www.headspin.io/blog/the-testing-pyramid-simplified-for-one-and-all
     observations: null
     tags: []
+    notDuplicateWith: [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85]
   - id: 86
     classification: pyramid
     describes: tests
@@ -1509,6 +1536,7 @@ data:
     url: https://kentcdodds.com/blog/the-testing-trophy-and-testing-classifications
     observations: null
     tags: []
+    notDuplicateWith: [89, 90, 93, 94, 96, 97, 103]
   - id: 90
     classification: trophy
     describes: tests
@@ -1526,6 +1554,7 @@ data:
     url: https://testingjavascript.com/
     observations: As far as I know, the original source of the trophy
     tags: [original]
+    notDuplicateWith: [89, 90, 93, 94, 96, 97, 103]
   - id: 91
     classification: pyramid
     describes: tests
@@ -1575,6 +1604,7 @@ data:
     url: https://subscription.packtpub.com/book/web-development/9781838642655/2/ch02lvl1sec08/understanding-the-testing-pyramid-and-trophy
     observations: null
     tags: []
+    notDuplicateWith: [89, 90, 93, 94, 96, 97, 103]
   - id: 94
     classification: trophy
     describes: tests
@@ -1592,6 +1622,7 @@ data:
     url: https://itnext.io/front-end-testing-strategy-5fddfd463feb
     observations: null
     tags: []
+    notDuplicateWith: [89, 90, 93, 94, 96, 97, 103]
   - id: 95
     classification: trophy
     describes: tests
@@ -1635,6 +1666,7 @@ data:
 
       Next to the static layer: Typescript
     tags: []
+    notDuplicateWith: [89, 90, 93, 94, 96, 97, 103]
   - id: 97
     classification: trophy
     describes: tests
@@ -1652,6 +1684,7 @@ data:
     url: https://gitfeatures.com/acceptance-criteria
     observations: null
     tags: []
+    notDuplicateWith: [89, 90, 93, 94, 96, 97, 103]
   - id: 98
     classification: trophy
     describes: tests
@@ -1757,6 +1790,7 @@ data:
     url: https://blog.cybozu.io/entry/2023/05/29/090000
     observations: It's a double trophy!
     tags: [funny]
+    notDuplicateWith: [89, 90, 93, 94, 96, 97, 103]
   - id: 104
     classification: diamond
     describes: tests
@@ -1774,6 +1808,7 @@ data:
     url: https://www.crispy-engineering.com/p/why-test-diamond-model-makes-sense
     observations: null
     tags: [pretty]
+    notDuplicateWith: [104, 113]
   - id: 105
     classification: diamond
     describes: tests
@@ -1840,6 +1875,7 @@ data:
     url: https://testerstories.com/2020/09/test-shapes/
     observations: null
     tags: []
+    notDuplicateWith: [108, 109, 110, 111, 116, 117, 118, 999]
   - id: 109
     classification: diamond
     describes: tests
@@ -1855,6 +1891,7 @@ data:
     url: https://www.infoq.com/articles/unit-tests-testing-pyramid/
     observations: null
     tags: []
+    notDuplicateWith: [108, 109, 110, 111, 116, 117, 118, 999]
   - id: 110
     classification: diamond
     describes: tests
@@ -1870,6 +1907,7 @@ data:
     url: https://www.code4it.dev/architecture-notes/testing-pyramid-vs-testing-diamond/
     observations: null
     tags: []
+    notDuplicateWith: [108, 109, 110, 111, 116, 117, 118, 999]
   - id: 111
     classification: diamond
     describes: tests
@@ -1885,6 +1923,7 @@ data:
     url: https://ritesh-kapoor.medium.com/testing-automation-what-are-pyramids-and-diamonds-67494fec7c55
     observations: null
     tags: []
+    notDuplicateWith: [108, 109, 110, 111, 116, 117, 118, 999]
   - id: 112
     classification: diamond
     describes: tests
@@ -1919,6 +1958,7 @@ data:
     url: https://jondot.medium.com/how-to-test-a-full-react-app-using-nothing-but-storybook-15f4c584e30a
     observations: null
     tags: []
+    notDuplicateWith: [104, 113]
   - id: 114
     classification: diamond
     describes: tests
@@ -1974,6 +2014,7 @@ data:
     url: https://aws.amazon.com/blogs/compute/getting-started-with-testing-serverless-applications/
     observations: null
     tags: []
+    notDuplicateWith: [108, 109, 110, 111, 116, 117, 118, 999]
   - id: 117
     classification: diamond
     describes: tests
@@ -1993,6 +2034,7 @@ data:
       The unit layer is actually called "implementation details". Based on the accompanying article,
       this is a synonymous.
     tags: []
+    notDuplicateWith: [108, 109, 110, 111, 116, 117, 118, 999]
   - id: 118
     classification: diamond
     describes: tests
@@ -2008,6 +2050,7 @@ data:
     url: https://dev.to/aws-builders/testing-serverless-apps-has-never-been-easier-442m
     observations: null
     tags: []
+    notDuplicateWith: [108, 109, 110, 111, 116, 117, 118, 999]
   - id: 119
     classification: diamond
     describes: tests
@@ -2191,6 +2234,7 @@ data:
     url: https://thetestlynx.wordpress.com/2024/03/19/the-sideways-test-pyramid/
     observations: Used to introduce the ideas of 130.
     tags: []
+    notDuplicateWith: [58, 64, 78, 80, 129]
   - id: 130
     classification: sideways-pyramid
     describes: test order
@@ -2232,8 +2276,9 @@ data:
         size: 1
     source: Succeeding With Agile - Mike Cohn
     observations: As far as I know, the original
-    tags: [original]
+    tags: ['original', 'respected creator']
     includesManual: false
+    notDuplicateWith: [72, 73, 132]
   - id: 133
     classification: pyramid
     describes: tests

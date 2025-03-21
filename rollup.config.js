@@ -1,9 +1,9 @@
-import package_ from './package.json' assert { type: 'json' };
+import package_ from './package.json' with { type: 'json' };
 import typescript from '@rollup/plugin-typescript';
-import dts from 'rollup-plugin-dts';
 import cleanup from 'rollup-plugin-cleanup';
 import del from 'rollup-plugin-delete';
 import { externals } from 'rollup-plugin-node-externals';
+import copy from 'rollup-plugin-copy'
 
 /**
  * @type {import('rollup').RollupOptions[]}
@@ -38,12 +38,4 @@ export default [
             externals(),
         ],
     },
-    // {
-    //     input: './src/index.ts',
-    //     output: [{ file: package_.types, format: 'module' }],
-    //     plugins: [
-    //         // Generate types (.d.ts)
-    //         dts(),
-    //     ],
-    // },
 ];

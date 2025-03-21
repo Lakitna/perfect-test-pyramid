@@ -11,11 +11,25 @@ export function testDataStatistics(data: DataFile) {
         ...new Set(dataPoints.map((dataPoint) => dataPoint.classification)),
     ];
     const classifications = uniqueClassifications.map((classification) => {
-        const count = dataPoints.filter((dp) => dp.classification === classification).length;
+        const dps = dataPoints.filter((dp) => dp.classification === classification);
+
+        if (classification === 'pyramid') console.log({ all: dps.map((dp) => dp.id) });
+
+        const count = dps.length;
+        const uniqueCount = new Set(
+            dps.map((dp) => {
+                if (dp.notDuplicateWith.length > 0) {
+                    return JSON.stringify(dp.notDuplicateWith);
+                }
+                return dp.id;
+            })
+        ).size;
         return {
             classification: classification,
             count: count,
-            percentage: (count / dataPoints.length) * 100,
+            percentageOfTotal: (count / dataPoints.length) * 100,
+            uniqueCount: uniqueCount,
+            uniquePercentage: (uniqueCount / count) * 100,
         };
     });
 

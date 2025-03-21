@@ -1,12 +1,32 @@
+import path from 'node:path';
 import { classificationStatistics } from './classifications';
 import { PyramidData } from './data';
+import { detectDuplicateFiles, detectDuplicateModels } from './detectDuplicates';
 import { drawPyramid } from './drawPyramid';
 import { layerStatistics, testDataStatistics } from './layers';
 import { mostAveragePyramid } from './mostAveragePyramid';
 import { readData } from './parse-data';
 
-const dataFile = 'data/pyramids.yaml';
+const dataFolder = path.resolve('data');
+
+console.log('Searching for duplicate source image files...');
+const duplicateFiles = await detectDuplicateFiles(path.join(dataFolder, 'source'));
+if (duplicateFiles.length > 0) {
+    console.log('Found exact duplicate source files. Aborting.');
+    console.log(duplicateFiles);
+    process.exit(1);
+}
+
+const dataFile = path.join(dataFolder, 'pyramids.yaml');
 const data = await readData(dataFile);
+
+console.log('Searching for duplicate data...');
+const duplicateModels = detectDuplicateModels(data);
+if (Object.keys(duplicateModels).length > 0) {
+    console.log('Found unaccounted for duplicate model data:');
+    console.log(duplicateModels);
+    process.exit(1);
+}
 
 const classifications = classificationStatistics(data);
 console.log(classifications);
@@ -24,8 +44,6 @@ console.log(layerStats);
 //         console.log();
 //         console.log();
 //     });
-
-// process.exit(0);
 
 // console.log('-'.repeat(50));
 
@@ -53,7 +71,7 @@ const personalPyramid: PyramidData = {
             position: 0,
         },
         {
-            label: ['component'],
+            label: ['part of application'],
             size: 1,
             position: 0,
         },
@@ -70,5 +88,6 @@ const personalPyramid: PyramidData = {
     ],
     id: -999,
     observations: 'My personal pyramid',
+    notDuplicateWith: [],
 };
-// drawPyramid(personalPyramid);
+drawPyramid(personalPyramid);

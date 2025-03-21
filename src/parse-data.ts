@@ -103,11 +103,24 @@ function toBaseData(raw: Record<string, unknown>): BaseData {
         throw new Error('Data has no observations', { cause: raw });
     }
 
+    if (raw.notDuplicateWith === undefined) {
+        raw.notDuplicateWith = [];
+    }
+    let dupeWith = Array.isArray(raw.notDuplicateWith)
+        ? raw.notDuplicateWith
+        : [raw.notDuplicateWith];
+    dupeWith.forEach((duplicate) => {
+        if (duplicate === undefined || typeof duplicate !== 'number') {
+            throw new Error(`Duplicate ${duplicate} is not an ID`, { cause: raw });
+        }
+    });
+
     return {
         id: raw.id,
         classification: raw.classification,
         describes: raw.describes,
         observations: raw.observations,
+        notDuplicateWith: dupeWith,
     };
 }
 
@@ -188,6 +201,7 @@ function toPyramidData(raw: Record<string, unknown> & { classification: 'pyramid
         classification: base.classification,
         describes: base.describes,
         observations: base.observations,
+        notDuplicateWith: base.notDuplicateWith,
         layers: raw.layers.map(toLayer),
     };
 }
@@ -220,6 +234,7 @@ function toTrophyData(raw: Record<string, unknown> & { classification: 'trophy' 
         classification: base.classification,
         describes: base.describes,
         observations: base.observations,
+        notDuplicateWith: base.notDuplicateWith,
         layers: raw.layers.map(toLayer),
     };
 }
@@ -252,6 +267,7 @@ function toDiamondData(raw: Record<string, unknown> & { classification: 'diamond
         classification: base.classification,
         describes: base.describes,
         observations: base.observations,
+        notDuplicateWith: base.notDuplicateWith,
         layers: raw.layers.map(toLayer),
     };
 }

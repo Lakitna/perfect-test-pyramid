@@ -14,6 +14,7 @@ export function mostAveragePyramid(
         }),
         id: -layerCount,
         observations: 'Most average with ' + layerCount + ' layers',
+        notDuplicateWith: [],
     };
 
     return mergeDuplicateLayers(mostAveragePyramid);

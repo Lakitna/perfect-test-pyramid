@@ -17,6 +17,7 @@ export interface BaseData {
     classification: string | null;
     describes: string;
     observations: string | null;
+    notDuplicateWith: BaseData['id'][];
 }
 
 export interface Layer {
