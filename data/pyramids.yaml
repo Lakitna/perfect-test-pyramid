@@ -17,7 +17,8 @@ data:
     source: Bartosz colleague
     observations: 'Go to Egypt'
     tags: []
-    notDuplicateWith: [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85]
+    notDuplicateWith:
+      [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85, 140, 141, 143, 151, 152, 155, 161, 168]
   - id: 2
     classification: pyramid
     describes: tests
@@ -201,7 +202,8 @@ data:
     source: Bartosz colleague
     observations: null
     tags: []
-    notDuplicateWith: [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85]
+    notDuplicateWith:
+      [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85, 140, 141, 143, 151, 152, 155, 161, 168]
   - id: 13
     classification: pyramid
     describes: tests
@@ -232,7 +234,8 @@ data:
       Two pyramids with the same layers. One for manual and the other for automated. The manual
       pyramid is smaller.
     tags: []
-    notDuplicateWith: [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85]
+    notDuplicateWith:
+      [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85, 140, 141, 143, 151, 152, 155, 161, 168]
   - id: 15
     classification: pyramid
     describes: tests
@@ -262,7 +265,8 @@ data:
     source: Bartosz colleague
     observations: Pyramid is flanked by overhangs reading "manual" and "auto".
     tags: []
-    notDuplicateWith: [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85]
+    notDuplicateWith:
+      [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85, 140, 141, 143, 151, 152, 155, 161, 168]
   - id: 17
     classification: pyramid
     describes: tests
@@ -333,7 +337,8 @@ data:
     source: Bartosz colleague
     observations: Drawn as a 3D pyramid
     tags: []
-    notDuplicateWith: [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85]
+    notDuplicateWith:
+      [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85, 140, 141, 143, 151, 152, 155, 161, 168]
   - id: 22
     classification: pyramid
     describes: tests
@@ -786,7 +791,8 @@ data:
     url: https://automationpanda.com/2018/08/01/the-testing-pyramid/
     observations: null
     tags: []
-    notDuplicateWith: [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85]
+    notDuplicateWith:
+      [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85, 140, 141, 143, 151, 152, 155, 161, 168]
   - id: 49
     classification: pyramid
     describes: tests
@@ -802,7 +808,8 @@ data:
     url: https://semaphoreci.com/blog/testing-pyramid
     observations: null
     tags: []
-    notDuplicateWith: [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85]
+    notDuplicateWith:
+      [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85, 140, 141, 143, 151, 152, 155, 161, 168]
   - id: 50
     classification: pyramid
     describes: tests
@@ -969,7 +976,7 @@ data:
       Each layer contains tools. gui=Espressio, Robotium, UI Automator. Integration=Roboelectric.
       Unit=JUnit, Mockito, PowerMock.
     tags: []
-    notDuplicateWith: [58, 64, 78, 80, 129]
+    notDuplicateWith: [58, 64, 78, 80, 129, 148, 158]
   - id: 59
     classification: pyramid
     describes: tests
@@ -1039,7 +1046,8 @@ data:
     url: https://betterprogramming.pub/the-test-pyramid-80d77535573
     observations: null
     tags: []
-    notDuplicateWith: [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85]
+    notDuplicateWith:
+      [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85, 140, 141, 143, 151, 152, 155, 161, 168]
   - id: 63
     classification: pyramid
     describes: tests
@@ -1074,7 +1082,7 @@ data:
     url: https://engineering.teknasyon.com/test-pyramid-and-manual-testing-a3c6135b8043
     observations: null
     tags: []
-    notDuplicateWith: [58, 64, 78, 80, 129]
+    notDuplicateWith: [58, 64, 78, 80, 129, 148, 158]
   - id: 65
     classification: pyramid
     describes: tests
@@ -1125,7 +1133,8 @@ data:
     url: https://www.lambdatest.com/learning-hub/test-pyramid
     observations: null
     tags: []
-    notDuplicateWith: [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85]
+    notDuplicateWith:
+      [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85, 140, 141, 143, 151, 152, 155, 161, 168]
   - id: 68
     classification: pyramid
     describes: tests
@@ -1206,7 +1215,7 @@ data:
     url: https://khushiy.com/2019/02/07/test-pyramid-antipatterns/
     observations: Next to each layer, there's an explanation.
     tags: []
-    notDuplicateWith: [72, 73, 132]
+    notDuplicateWith: [72, 73, 132, 170]
   - id: 73
     classification: pyramid
     describes: tests
@@ -1222,7 +1231,7 @@ data:
     url: https://martinfowler.com/articles/practical-test-pyramid.html
     observations: null
     tags: []
-    notDuplicateWith: [72, 73, 132]
+    notDuplicateWith: [72, 73, 132, 170]
   - id: 74
     classification: pyramid
     describes: tests
@@ -1309,13 +1318,11 @@ data:
     url: https://www.botplayautomation.com/post/how-to-implement-the-test-pyramid-in-automation-and-manual-testing
     observations: null
     tags: []
-    notDuplicateWith: [58, 64, 78, 80, 129]
+    notDuplicateWith: [58, 64, 78, 80, 129, 148, 158]
   - id: 79
     classification: pyramid
     describes: tests
     layers:
-      - label: manual
-        size: 1
       - label: gui
         size: 1
       - label: [api, service, functional]
@@ -1350,13 +1357,11 @@ data:
     url: https://www.linkedin.com/pulse/time-turn-test-pyramid-its-head-paul-chorley/
     observations: null
     tags: []
-    notDuplicateWith: [58, 64, 78, 80, 129]
+    notDuplicateWith: [58, 64, 78, 80, 129, 148, 158]
   - id: 81
     classification: pyramid
     describes: tests
     layers:
-      - label: manual
-        size: 1
       - label: gui
         size: 1
       - label: [api, service, functional]
@@ -1439,7 +1444,8 @@ data:
 
       Arrow to unit layer "More of these"
     tags: [pretty]
-    notDuplicateWith: [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85]
+    notDuplicateWith:
+      [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85, 140, 141, 143, 151, 152, 155, 161, 168]
   - id: 85
     classification: pyramid
     describes: tests
@@ -1455,7 +1461,8 @@ data:
     url: https://www.headspin.io/blog/the-testing-pyramid-simplified-for-one-and-all
     observations: null
     tags: []
-    notDuplicateWith: [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85]
+    notDuplicateWith:
+      [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85, 140, 141, 143, 151, 152, 155, 161, 168]
   - id: 86
     classification: pyramid
     describes: tests
@@ -2234,7 +2241,7 @@ data:
     url: https://thetestlynx.wordpress.com/2024/03/19/the-sideways-test-pyramid/
     observations: Used to introduce the ideas of 130.
     tags: []
-    notDuplicateWith: [58, 64, 78, 80, 129]
+    notDuplicateWith: [58, 64, 78, 80, 129, 148, 158]
   - id: 130
     classification: sideways-pyramid
     describes: test order
@@ -2278,7 +2285,7 @@ data:
     observations: As far as I know, the original
     tags: ['original', 'respected creator']
     includesManual: false
-    notDuplicateWith: [72, 73, 132]
+    notDuplicateWith: [72, 73, 132, 170]
   - id: 133
     classification: pyramid
     describes: tests
@@ -2379,4 +2386,581 @@ data:
         size: 1
     source: Linda
     observations: Servant leader
+    tags: []
+  - id: 139
+    classification: hourglass
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 2
+      - label: integration
+        size: 1
+      - label: unit
+        size: 2
+    includesManual: false
+    source: Google
+    url: https://testing.googleblog.com/2020/11/fixing-test-hourglass.html
+    observations: null
+    tags: []
+    notDuplicateWith: [139, 142, 154, 157, 164, 167]
+  - id: 140
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://testing.googleblog.com/2020/11/fixing-test-hourglass.html
+    observations: null
+    tags: []
+    notDuplicateWith:
+      [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85, 140, 141, 143, 151, 152, 155, 161, 168]
+  - id: 141
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://www.leapwork.com/blog/testing-pyramid
+    observations: null
+    tags: []
+    notDuplicateWith:
+      [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85, 140, 141, 143, 151, 152, 155, 161, 168]
+  - id: 142
+    classification: hourglass
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://www.leapwork.com/blog/testing-pyramid
+    observations: null
+    tags: []
+    notDuplicateWith: [139, 142, 154, 157, 164, 167]
+  - id: 143
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://journal.optivem.com/p/new-test-pyramid
+    observations: null
+    tags: []
+    notDuplicateWith:
+      [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85, 140, 141, 143, 151, 152, 155, 161, 168]
+  - id: 144
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: smoke
+        size: 1
+      - label: end-to-end
+        size: 1
+      - label: [acceptance, contract]
+        size: 1
+      - label: [component, contract]
+        size: 1
+      - label: [unit, integration]
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://journal.optivem.com/p/new-test-pyramid
+    observations: null
+    tags: ['complex']
+  - id: 145
+    classification: inverted-pyramid
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: system
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://www.linkedin.com/pulse/clarity-agile-testing-pyramid-tom-payne/
+    observations: null
+    tags: []
+  - id: 146
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: system
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://www.linkedin.com/pulse/clarity-agile-testing-pyramid-tom-payne/
+    observations: null
+    tags: []
+  # Can't be classified in this data structure
+  # - id: 147
+  #   classification: pyramid
+  #   describes: tests
+  #   layers:
+  #     - label: end-to-end
+  #       size: 1
+  #     - label: system
+  #       size: 1
+  #     - label: integration
+  #       size: 1
+  #     - label: unit
+  #       size: 1
+  #   includesManual: explicit
+  #   source: Google
+  #   url: https://www.linkedin.com/pulse/clarity-agile-testing-pyramid-tom-payne/
+  #   observations: null
+  #   tags: ['complex']
+  - id: 148
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: gui
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://thenewstack.io/unit-tests-are-overrated-rethinking-testing-strategies/
+    observations: null
+    tags: []
+    notDuplicateWith: [58, 64, 78, 80, 129, 148, 158]
+  - id: 149
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: dom-to-database
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://thenewstack.io/unit-tests-are-overrated-rethinking-testing-strategies/
+    observations: null
+    tags: []
+  - id: 150
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: gui
+        size: 1
+      - label: [api, service, functional]
+        size: 1
+      - label: [unit, component]
+        size: 1
+    includesManual: on top
+    source: Google
+    url: https://www.mabl.com/blog/your-automation-testing-strategy
+    observations: The manual on top is shaped like a cloud.
+
+      A pyramid with three sides. Main side is described in layers.
+
+      Left side contains the following words in random places. Performance, Usability, Reliability,
+      Maintainability, Functionality
+
+      The right side contains three layers. UAT, System, Unit.
+
+      Left side of the pyramid is "regression", right side is "collected during execution".
+    tags: ['mixed concepts']
+  - id: 151
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://www.wiremock.io/post/rethinking-the-testing-pyramid
+    observations: Arrow from e2e "Higher maintenance" "More insightful"
+
+      Arrow from unit "Low maintenance" "Less insightful"
+    tags: []
+    notDuplicateWith:
+      [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85, 140, 141, 143, 151, 152, 155, 161, 168]
+  - id: 152
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://www.wiremock.io/post/rethinking-the-testing-pyramid
+    observations: Arrow from e2e "Minimal smoke testing"
+
+      Arrow from integration "Majority of tests"
+
+      Arrow from unit "Used for complex logic or large example sets"
+    tags: []
+    notDuplicateWith:
+      [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85, 140, 141, 143, 151, 152, 155, 161, 168]
+  - id: 153
+    classification: inverted-pyramid
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://petermorlion.com/the-testing-pyramid-is-fine-for-legacy-code/
+    observations: null
+    tags: []
+  - id: 154
+    classification: hourglass
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://petermorlion.com/the-testing-pyramid-is-fine-for-legacy-code/
+    observations: null
+    tags: []
+    notDuplicateWith: [139, 142, 154, 157, 164, 167]
+  - id: 155
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://www.freecodecamp.org/news/end-to-end-testing-tutorial/
+    observations: null
+    tags: []
+    notDuplicateWith:
+      [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85, 140, 141, 143, 151, 152, 155, 161, 168]
+  - id: 156
+    classification: inverted-pyramid
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://www.freecodecamp.org/news/end-to-end-testing-tutorial/
+    observations: null
+    tags: []
+  - id: 157
+    classification: hourglass
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://www.freecodecamp.org/news/end-to-end-testing-tutorial/
+    observations: null
+    tags: []
+    notDuplicateWith: [139, 142, 154, 157, 164, 167]
+  - id: 158
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: gui
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://www.kodeco.com/books/android-test-driven-development-by-tutorials/v2.0/chapters/4-the-testing-pyramid
+    observations: null
+    tags: []
+    notDuplicateWith: [58, 64, 78, 80, 129, 148, 158]
+  - id: 159
+    classification: inverted-pyramid
+    describes: tests
+    layers:
+      - label: gui
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://www.kodeco.com/books/android-test-driven-development-by-tutorials/v2.0/chapters/4-the-testing-pyramid
+    observations: null
+    tags: []
+  - id: 160
+    classification: hourglass
+    describes: tests
+    layers:
+      - label: gui
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://www.kodeco.com/books/android-test-driven-development-by-tutorials/v2.0/chapters/4-the-testing-pyramid
+    observations: null
+    tags: []
+
+  - id: 161
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://blog.ncrunch.net/post/testing-pyramid-automated-testing.aspx
+    observations: null
+    tags: []
+    notDuplicateWith:
+      [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85, 140, 141, 143, 151, 152, 155, 161, 168]
+  - id: 162
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: null
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://blog.ncrunch.net/post/testing-pyramid-automated-testing.aspx
+    observations: null
+    tags: []
+  - id: 163
+    classification: inverted-pyramid
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://blog.ncrunch.net/post/testing-pyramid-automated-testing.aspx
+    observations: null
+    tags: []
+  - id: 164
+    classification: hourglass
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://blog.ncrunch.net/post/testing-pyramid-automated-testing.aspx
+    observations: null
+    tags: []
+    notDuplicateWith: [139, 142, 154, 157, 164, 167]
+  - id: 165
+    classification: cupcake
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: on top
+    source: Google
+    url: https://blog.ncrunch.net/post/testing-pyramid-automated-testing.aspx
+    observations: null
+    tags: []
+  - id: 166
+    classification: null
+    describes: tests
+    layers:
+      - label: system
+        size: 1
+      - label: [component, service]
+        size: 1
+      - label: class
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://web.archive.org/web/20180627080651/http://www.codingthearchitecture.com/2015/03/08/package_by_component_and_architecturally_aligned_testing.html
+    observations: null
+    tags: []
+  - id: 167
+    classification: hourglass
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://testrigor.com/end-to-end-testing/
+    observations: null
+    tags: []
+    notDuplicateWith: [139, 142, 154, 157, 164, 167]
+  - id: 168
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: end-to-end
+        size: 1
+      - label: integration
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://testrigor.com/end-to-end-testing/
+    observations: null
+    tags: []
+    notDuplicateWith:
+      [1, 12, 14, 16, 21, 48, 49, 62, 67, 84, 85, 140, 141, 143, 151, 152, 155, 161, 168]
+  - id: 169
+    classification: hourglass
+    describes: tests
+    layers:
+      - label: gui
+        size: 1
+      - label: service
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://www.lydtechconsulting.com/blog-test-automation-pyramid.html
+    observations: null
+    tags: []
+  - id: 170
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: gui
+        size: 1
+      - label: service
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: false
+    source: Google
+    url: https://fulcrum.rocks/blog/qa-automation
+    observations: null
+    tags: []
+    notDuplicateWith: [72, 73, 132, 170]
+  - id: 171
+    classification: inverted-pyramid
+    describes: tests
+    layers:
+      - label: gui
+        size: 1
+      - label: service
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: on top
+    source: Google
+    url: https://fulcrum.rocks/blog/qa-automation
+    observations: null
+    tags: []
+  - id: 172
+    classification: cupcake
+    describes: tests
+    layers:
+      - label: gui
+        size: 1
+      - label: service
+        size: 1
+      - label: unit
+        size: 1
+    includesManual: on top
+    source: Google
+    url: https://fulcrum.rocks/blog/qa-automation
+    observations: null
+    tags: []
+  - id: 173
+    classification: pyramid
+    describes: tests
+    layers:
+      - label: gui
+        size: 1
+      - label: api
+        size: 1
+      - label: integration
+        size: 1
+      - label: [component, contract]
+        size: 1
+      - label: [unit, contract]
+        size: 1
+    includesManual: on top
+    source: Google
+    url: https://fulcrum.rocks/blog/qa-automation
+    observations: null
     tags: []
