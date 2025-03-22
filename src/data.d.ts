@@ -8,6 +8,8 @@ export interface DataFile {
         | DiamondData
         | CrabData
         | RocketData
+        | HourglassData
+        | CupcakeData
         | NullData
     )[];
 }
@@ -72,4 +74,11 @@ export interface NullData extends BaseData {
 
 export interface SidewaysPyramidData extends BaseData, Columned {
     classification: 'sideways-pyramid';
+}
+
+export interface HourglassData extends BaseData, Layered {
+    classification: 'hourglass';
+}
+export interface CupcakeData extends BaseData, Layered {
+    classification: 'cupcake';
 }

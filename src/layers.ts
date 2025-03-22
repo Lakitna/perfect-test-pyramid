@@ -13,8 +13,6 @@ export function testDataStatistics(data: DataFile) {
     const classifications = uniqueClassifications.map((classification) => {
         const dps = dataPoints.filter((dp) => dp.classification === classification);
 
-        if (classification === 'pyramid') console.log({ all: dps.map((dp) => dp.id) });
-
         const count = dps.length;
         const uniqueCount = new Set(
             dps.map((dp) => {

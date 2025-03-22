@@ -3,9 +3,11 @@ import { readFile } from 'node:fs/promises';
 import {
     BaseData,
     CrabData,
+    CupcakeData,
     DataFile,
     DescribesTests,
     DiamondData,
+    HourglassData,
     InvertedPyramidData,
     Layer,
     NullData,
@@ -67,6 +69,16 @@ export async function readData(filePath: string): Promise<DataFile> {
                     return toTestBaseData(dataPoint) as RocketData & DescribesTests;
                 }
                 return toBaseData(dataPoint) as RocketData;
+            case 'hourglass':
+                if (dataPoint.describes === 'tests') {
+                    return toTestHourglassData(dataPoint);
+                }
+                return toHourglassData(dataPoint);
+            case 'cupcake':
+                if (dataPoint.describes === 'tests') {
+                    return toTestCupcakeData(dataPoint);
+                }
+                return toCupcakeData(dataPoint);
             case null:
                 if (dataPoint.describes === 'tests') {
                     return toTestBaseData(dataPoint) as NullData & DescribesTests;
@@ -280,6 +292,74 @@ function toTestDiamondData(
 
     return {
         ...diamond,
+        ...test,
+    };
+}
+
+function toHourglassData(
+    raw: Record<string, unknown> & { classification: 'hourglass' }
+): HourglassData {
+    const base = toBaseData(raw);
+
+    if (base.classification !== 'hourglass') {
+        throw new Error('classification not hourglass', { cause: raw });
+    }
+
+    if (raw.layers === undefined || !Array.isArray(raw.layers)) {
+        throw new Error('Has no layers', { cause: raw });
+    }
+
+    return {
+        id: base.id,
+        classification: base.classification,
+        describes: base.describes,
+        observations: base.observations,
+        notDuplicateWith: base.notDuplicateWith,
+        layers: raw.layers.map(toLayer),
+    };
+}
+
+function toTestHourglassData(
+    raw: Record<string, unknown> & { classification: 'hourglass' } & { describes: 'tests' }
+): HourglassData & DescribesTests {
+    const hourglass = toHourglassData(raw);
+    const test = toDescribesTest(raw);
+
+    return {
+        ...hourglass,
+        ...test,
+    };
+}
+
+function toCupcakeData(raw: Record<string, unknown> & { classification: 'cupcake' }): CupcakeData {
+    const base = toBaseData(raw);
+
+    if (base.classification !== 'cupcake') {
+        throw new Error('classification not cupcake', { cause: raw });
+    }
+
+    if (raw.layers === undefined || !Array.isArray(raw.layers)) {
+        throw new Error('Has no layers', { cause: raw });
+    }
+
+    return {
+        id: base.id,
+        classification: base.classification,
+        describes: base.describes,
+        observations: base.observations,
+        notDuplicateWith: base.notDuplicateWith,
+        layers: raw.layers.map(toLayer),
+    };
+}
+
+function toTestCupcakeData(
+    raw: Record<string, unknown> & { classification: 'cupcake' } & { describes: 'tests' }
+): CupcakeData & DescribesTests {
+    const hourglass = toCupcakeData(raw);
+    const test = toDescribesTest(raw);
+
+    return {
+        ...hourglass,
         ...test,
     };
 }

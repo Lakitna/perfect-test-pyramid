@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
 import { open, opendir } from 'node:fs/promises';
 import path from 'node:path';
-import { BaseData, DataFile } from './data';
+import { BaseData, DataFile, Layer } from './data';
 
 export async function detectDuplicateFiles(folderPath: string): Promise<string[][]> {
     const fileHashes: { name: string; hash: string }[] = [];
@@ -113,8 +113,8 @@ function findDuplicates(dataPoints: DataFile['data']) {
 }
 
 function layersAreDuplicate<T extends DataFile['data'][0]>(a: T, b: T): boolean {
-    let layersA;
-    let layersB;
+    let layersA: Layer[];
+    let layersB: Layer[];
     if ('layers' in a && 'layers' in b) {
         layersA = a.layers;
         layersB = b.layers;
