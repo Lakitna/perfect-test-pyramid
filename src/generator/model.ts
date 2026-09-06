@@ -7,11 +7,37 @@
  * edge, so the result is not always a triangle — that is intentional.
  */
 
+import type { PatternName } from './styles/types';
+
 export interface GeneratorLayer {
     label: string;
     notes: string;
     /** Fill color as #rrggbb */
     color: string;
+    /**
+     * True once the user hand-picked `color` in the editor. Styles may override layer fills
+     * with their own palette, but never override a custom color. Optional so old links
+     * (without the field) keep parsing — absent means false.
+     */
+    colorCustom?: boolean;
+    /**
+     * Per-layer fill overrides chosen in the editor for styles whose layers are not plain
+     * colors. They win over the style's default cycle but lose to `colorCustom`.
+     */
+    fillPattern?: PatternName;
+    /**
+     * The layer's own gradient stops (2–6 #rrggbb colors) picked in the editor — renders a
+     * custom linearGradient instead of the style's predefined cycle. Like patternColor it
+     * recolors the gradient WITHOUT flattening; only meaningful while the layer renders
+     * a gradient.
+     */
+    gradientColors?: string[];
+    /**
+     * Tint picked for this layer's hatch pattern (draftsman et al.) — recolors the pattern
+     * WITHOUT flattening it to a solid fill. Only meaningful while the layer renders a
+     * pattern; ignored for solid fills.
+     */
+    patternColor?: string;
 }
 
 export interface PyramidModel {
@@ -389,6 +415,14 @@ export function canRemoveLayer(model: PyramidModel): boolean {
 }
 
 const COLOR_PATTERN = /^#[0-9a-fA-F]{6}$/;
+const PATTERN_NAMES: readonly string[] = [
+    'none',
+    'diag45',
+    'diag-45',
+    'cross',
+    'dots',
+    'horizontal',
+];
 
 /**
  * Validate and sanitize unknown data (e.g. JSON decoded from the URL) into a PyramidModel.
@@ -412,7 +446,50 @@ export function parseModel(input: unknown): PyramidModel | null {
         if (typeof layer.label !== 'string') return null;
         if (typeof layer.notes !== 'string') return null;
         if (typeof layer.color !== 'string' || !COLOR_PATTERN.test(layer.color)) return null;
-        layers.push({ label: layer.label, notes: layer.notes, color: layer.color.toLowerCase() });
+        if (layer.colorCustom !== undefined && typeof layer.colorCustom !== 'boolean') {
+            return null;
+        }
+        if (
+            layer.fillPattern !== undefined &&
+            !PATTERN_NAMES.includes(layer.fillPattern as string)
+        ) {
+            return null;
+        }
+        if (
+            layer.patternColor !== undefined &&
+            (typeof layer.patternColor !== 'string' || !COLOR_PATTERN.test(layer.patternColor))
+        ) {
+            return null;
+        }
+        if (
+            layer.gradientColors !== undefined &&
+            (!Array.isArray(layer.gradientColors) ||
+                layer.gradientColors.length < 2 ||
+                layer.gradientColors.length > 6 ||
+                !layer.gradientColors.every((c) => typeof c === 'string' && COLOR_PATTERN.test(c)))
+        ) {
+            return null;
+        }
+        layers.push({
+            label: layer.label,
+            notes: layer.notes,
+            color: layer.color.toLowerCase(),
+            // Only serialize the flag when set, to keep URL payloads small.
+            ...(layer.colorCustom === true ? { colorCustom: true } : {}),
+            ...(typeof layer.fillPattern === 'string'
+                ? { fillPattern: layer.fillPattern as PatternName }
+                : {}),
+            ...(typeof layer.patternColor === 'string'
+                ? { patternColor: layer.patternColor.toLowerCase() }
+                : {}),
+            ...(Array.isArray(layer.gradientColors)
+                ? {
+                      gradientColors: (layer.gradientColors as string[]).map((c) =>
+                          c.toLowerCase()
+                      ),
+                  }
+                : {}),
+        });
     }
 
     const widths: number[] = [];

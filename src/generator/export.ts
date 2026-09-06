@@ -1,5 +1,7 @@
+import { fontFaceCss } from './fonts';
 import type { PyramidModel } from './model';
-import { canvasPalette, renderPyramidSvg, serializeSvg } from './render';
+import { renderPyramidSvg, serializeSvg } from './render';
+import { getActiveStyle } from './styleState';
 import { isDarkMode } from './theme';
 
 function triggerDownload(objectUrl: string, filename: string): void {
@@ -12,28 +14,35 @@ function triggerDownload(objectUrl: string, filename: string): void {
     window.setTimeout(() => URL.revokeObjectURL(objectUrl), 2000);
 }
 
-/** Download the pyramid (with legend) as a standalone .svg file, matching the current theme. */
+/**
+ * Download the pyramid (with legend) as a standalone .svg file, in the active style and
+ * theme. The style's @font-face rules (data URIs) are embedded so the file renders the
+ * same everywhere, offline.
+ */
 export function downloadSvg(model: PyramidModel, filename = 'test-pyramid.svg'): void {
+    const style = getActiveStyle();
     const svgString = serializeSvg(
-        renderPyramidSvg(model, { dark: isDarkMode(), attribution: true })
+        renderPyramidSvg(model, { style, dark: isDarkMode(), attribution: true }),
+        { embedFontCss: fontFaceCss(style.typography.fonts) }
     );
     const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
     triggerDownload(URL.createObjectURL(blob), filename);
 }
 
 /**
- * Download the pyramid (with legend) as a .png file.
+ * Download the pyramid (with legend) as a .png file, in the active style and theme.
  * The SVG is rasterized through a data-URL Image onto a canvas, which keeps the canvas
- * untainted (no external resources, system fonts only).
+ * untainted — the embedded fonts travel as data URIs inside that same URL.
  */
 export async function downloadPng(
     model: PyramidModel,
     filename = 'test-pyramid.png',
     scale = 2
 ): Promise<void> {
+    const style = getActiveStyle();
     const dark = isDarkMode();
-    const svg = renderPyramidSvg(model, { dark, attribution: true });
-    const svgString = serializeSvg(svg);
+    const svg = renderPyramidSvg(model, { style, dark, attribution: true });
+    const svgString = serializeSvg(svg, { embedFontCss: fontFaceCss(style.typography.fonts) });
     const viewBox = svg.viewBox.baseVal;
 
     const image = new Image();
@@ -51,7 +60,7 @@ export async function downloadPng(
     if (context === null) {
         throw new Error('Canvas 2D rendering context is not available');
     }
-    context.fillStyle = canvasPalette(dark).background;
+    context.fillStyle = (dark ? style.canvas.dark : style.canvas.light).background;
     context.fillRect(0, 0, canvas.width, canvas.height);
     context.drawImage(image, 0, 0, canvas.width, canvas.height);
 

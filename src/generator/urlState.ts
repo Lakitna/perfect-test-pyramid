@@ -1,6 +1,8 @@
 import { parseModel, type PyramidModel } from './model';
+import { DEFAULT_STYLE_ID, isValidStyleId } from './styles';
 
 const HASH_PARAM = 'p';
+const STYLE_PARAM = 's';
 
 /** Encode a model as URL-safe base64 of its JSON (UTF-8 safe). */
 export function encodeModel(model: PyramidModel): string {
@@ -34,20 +36,33 @@ export interface HashReadResult {
     model: PyramidModel | null;
     /** Whether the hash contained pyramid data at all (even if invalid). */
     present: boolean;
+    /** The style id from `#s=`, or null when absent/unknown (viewer's preference applies). */
+    styleId: string | null;
 }
 
 export function readHash(): HashReadResult {
     const params = new URLSearchParams(window.location.hash.replace(/^#/, ''));
     const value = params.get(HASH_PARAM);
+    const styleParam = params.get(STYLE_PARAM);
+    const styleId = isValidStyleId(styleParam) ? styleParam : null;
     if (value === null || value === '') {
-        return { model: null, present: false };
+        return { model: null, present: false, styleId };
     }
-    return { model: decodeModel(value), present: true };
+    return { model: decodeModel(value), present: true, styleId };
 }
 
-/** Write the model into the URL hash without adding a history entry. Returns the encoded string. */
-export function writeModelToHash(model: PyramidModel): string {
+/**
+ * Write model (+ non-default style id) into the URL hash without adding a history entry.
+ * Returns the encoded model string. The `s` param is omitted for the default style so
+ * classic links stay as short as they were before styles existed.
+ */
+export function writeStateToHash(model: PyramidModel, styleId: string): string {
     const encoded = encodeModel(model);
-    window.history.replaceState(null, '', `#${HASH_PARAM}=${encoded}`);
+    const params = new URLSearchParams();
+    params.set(HASH_PARAM, encoded);
+    if (styleId !== DEFAULT_STYLE_ID) {
+        params.set(STYLE_PARAM, styleId);
+    }
+    window.history.replaceState(null, '', `#${params.toString()}`);
     return encoded;
 }

@@ -18,12 +18,16 @@ import {
 } from './model';
 import {
     edgeGeometry,
+    effectiveLayerGradient,
+    effectiveLayerPattern,
     layerHeightFor,
     layerPolygonPoints,
-    PADDING,
+    layerShapePath,
     renderPyramidSvg,
     unitFor,
 } from './render';
+import { getActiveStyle } from './styleState';
+import type { PatternName } from './styles/types';
 import { isDarkMode } from './theme';
 
 export interface EditorHost {
@@ -45,8 +49,16 @@ export interface PyramidEditor {
     clearSelection(): void;
 }
 
-const ACCENT = '#2a6df4';
 const SVG_NS = 'http://www.w3.org/2000/svg';
+
+const PATTERN_LABELS: Record<PatternName, string> = {
+    none: 'Plain (no fill)',
+    diag45: 'Diagonal hatch',
+    'diag-45': 'Reverse diagonal hatch',
+    cross: 'Cross hatch',
+    dots: 'Dots',
+    horizontal: 'Horizontal lines',
+};
 
 function truncate(text: string, maxChars: number): string {
     if (text.length <= maxChars) return text;
@@ -92,7 +104,7 @@ export function createEditor(
     function onCanvasDoubleClick(event: MouseEvent): void {
         if (widthDrag !== null || activeInline !== null || layerDrag !== null) return;
         const target = hitElement(event);
-        const polygon = target?.closest('polygon[data-layer-index]');
+        const polygon = target?.closest('path[data-layer-index]');
         if (polygon !== null && polygon !== undefined) {
             startInlineEdit('label', Number(polygon.getAttribute('data-layer-index')));
         }
@@ -111,7 +123,7 @@ export function createEditor(
         if (
             hit !== null &&
             hit.closest('.editing-ui') === null &&
-            (hit.matches('polygon') ||
+            (hit.matches('polygon, path') ||
                 hit.matches('[data-edit-field]') ||
                 hit.matches('rect[data-label-chip]'))
         ) {
@@ -141,7 +153,7 @@ export function createEditor(
             ui.insertBefore(group, ui.firstChild);
         }
         group.textContent = '';
-        const points = layerPolygonPoints(m, hoveredLayer as number);
+        const points = layerPolygonPoints(m, hoveredLayer as number, getActiveStyle());
         for (const cls of ['hover-inner', 'hover-outline']) {
             const polygon = document.createElementNS(SVG_NS, 'polygon');
             polygon.setAttribute('class', cls);
@@ -220,7 +232,7 @@ export function createEditor(
         }
 
         // 6. Layer body: select, and start a potential reorder drag.
-        const polygon = target.closest('polygon[data-layer-index]');
+        const polygon = target.closest('path[data-layer-index]');
         if (polygon !== null) {
             if (next !== selected) {
                 selected = next;
@@ -255,15 +267,16 @@ export function createEditor(
         point.y = event.clientY;
         const svgY = point.matrixTransform(ctm.inverse()).y;
         const m = model();
-        const layerHeight = layerHeightFor(m);
-        const band = Math.floor((svgY - PADDING) / layerHeight);
+        const style = getActiveStyle();
+        const layerHeight = layerHeightFor(m, style);
+        const band = Math.floor((svgY - style.layout.padding) / layerHeight);
         let insertAt: number;
         if (band < 0) {
             insertAt = 0;
         } else if (band >= m.layers.length) {
             insertAt = m.layers.length;
         } else {
-            const within = svgY - (PADDING + band * layerHeight);
+            const within = svgY - (style.layout.padding + band * layerHeight);
             insertAt = within < layerHeight / 2 ? band : band + 1;
         }
         layerDrag.insertAt = insertAt;
@@ -296,11 +309,12 @@ export function createEditor(
         point.x = event.clientX;
         point.y = event.clientY;
         const svgPoint = point.matrixTransform(ctm.inverse());
-        const { centerX } = edgeGeometry(model(), widthDrag.edge);
+        const style = getActiveStyle();
+        const { centerX } = edgeGeometry(model(), widthDrag.edge, style);
         // Signed distance per dragged side: past the horizontal middle the width sticks at 0,
         // mirroring the 100 cap at the other end.
         const distance = widthDrag.side === 'right' ? svgPoint.x - centerX : centerX - svgPoint.x;
-        const width = clampWidth((distance * 2) / unitFor(model()));
+        const width = clampWidth((distance * 2) / unitFor(model(), style));
         if (width === model().widths[widthDrag.edge]) return;
         model().widths[widthDrag.edge] = width;
         render();
@@ -323,27 +337,29 @@ export function createEditor(
     function updateGeometryLive(): void {
         if (svg === null) return;
         const m = model();
+        const style = getActiveStyle();
         m.layers.forEach((_, i) => {
-            const poly = svg!.querySelector(`polygon[data-layer-index="${i}"]`);
-            if (poly !== null) {
-                poly.setAttribute('points', layerPolygonPoints(m, i));
-            }
+            // Both the fill path and the overlay stroke path share the same geometry.
+            const d = layerShapePath(m, i, style);
+            svg!.querySelectorAll(`path[data-layer-index="${i}"]`).forEach((shape) => {
+                shape.setAttribute('d', d);
+            });
         });
         if (selected !== null && selected < m.layers.length) {
             const outline = svg.querySelector('.selection-outline');
             if (outline !== null) {
-                outline.setAttribute('points', layerPolygonPoints(m, selected));
+                outline.setAttribute('points', layerPolygonPoints(m, selected, style));
             }
             const inner = svg.querySelector('.selection-inner');
             if (inner !== null) {
-                inner.setAttribute('points', layerPolygonPoints(m, selected));
+                inner.setAttribute('points', layerPolygonPoints(m, selected, style));
             }
         }
         updateHoverOutline();
         svg.querySelectorAll('.width-handle').forEach((handle) => {
             const element = handle as SVGCircleElement;
             const edge = Number(element.getAttribute('data-edge'));
-            const geometry = edgeGeometry(m, edge);
+            const geometry = edgeGeometry(m, edge, style);
             element.setAttribute(
                 'cx',
                 String(
@@ -549,22 +565,160 @@ export function createEditor(
             toolbarEl.append(divider(), upButton, downButton, deleteButton);
 
             const layer = m.layers[selected];
+            const style = getActiveStyle();
 
-            const colorInput = document.createElement('input');
-            colorInput.type = 'color';
-            colorInput.className = 'tool-color';
-            colorInput.value = layer.color;
-            colorInput.title = 'Layer color';
-            colorInput.addEventListener('input', () => {
-                layer.color = colorInput.value;
-                // Surgical fill update: rebuilding the toolbar would close the color picker.
-                if (svg !== null && selected !== null) {
-                    const poly = svg.querySelector(`polygon[data-layer-index="${selected}"]`);
-                    poly?.setAttribute('fill', colorInput.value);
+            // Fill-mode select: styles whose layers are not plain colors (hatch patterns,
+            // candy gradients) get per-layer options; 'Custom color' reveals the picker.
+            const fillSelect = document.createElement('select');
+            fillSelect.className = 'tool-select';
+            fillSelect.title = 'How this layer is filled';
+            const fillOptions: { value: string; label: string }[] = [
+                { value: '', label: 'Style default' },
+                { value: 'color', label: 'Custom color' },
+            ];
+            if (style.fills.mode === 'pattern') {
+                for (const name of [...new Set(style.fills.patterns.map((p) => p.name))]) {
+                    fillOptions.push({ value: `pat:${name}`, label: PATTERN_LABELS[name] });
                 }
-                host.onLive();
+            }
+            // The style's predefined gradients stay as the default cycle per layer
+            // position; instead of picking a different preset, the user authors their own
+            // stops from the currently shown gradient.
+            if ((style.fills.gradients ?? []).length > 0 || layer.gradientColors !== undefined) {
+                fillOptions.push({ value: 'grad:custom', label: 'Custom gradient' });
+            }
+            // An override travels with the layer across styles (a hatched layer stays
+            // hatched in Cartoon) — keep it visible and resettable even when the current
+            // style's own option list doesn't include it.
+            if (
+                layer.fillPattern !== undefined &&
+                !fillOptions.some((o) => o.value === `pat:${layer.fillPattern}`)
+            ) {
+                fillOptions.push({
+                    value: `pat:${layer.fillPattern}`,
+                    label: PATTERN_LABELS[layer.fillPattern],
+                });
+            }
+            for (const option of fillOptions) {
+                const element = document.createElement('option');
+                element.value = option.value;
+                element.textContent = option.label;
+                fillSelect.appendChild(element);
+            }
+            fillSelect.value =
+                layer.colorCustom === true
+                    ? 'color'
+                    : layer.fillPattern !== undefined
+                      ? `pat:${layer.fillPattern}`
+                      : layer.gradientColors !== undefined
+                        ? 'grad:custom'
+                        : '';
+            const selectedIndex = selected;
+            fillSelect.addEventListener('change', () => {
+                const value = fillSelect.value;
+                delete layer.fillPattern;
+                delete layer.gradientColors;
+                if (value === '') {
+                    delete layer.colorCustom;
+                } else if (value === 'color') {
+                    layer.colorCustom = true;
+                } else if (value.startsWith('pat:')) {
+                    layer.fillPattern = value.slice(4) as PatternName;
+                    delete layer.colorCustom;
+                } else if (value === 'grad:custom') {
+                    // Seed the custom gradient with the stops the layer currently shows,
+                    // so switching to custom never changes the look — it just unlocks it.
+                    const current = effectiveLayerGradient(style, layer, selectedIndex);
+                    layer.gradientColors = current
+                        ? [...current.stops]
+                        : [layer.color, layer.color];
+                    delete layer.colorCustom;
+                }
+                host.onCommit();
             });
-            colorInput.addEventListener('change', () => host.onCommit());
+
+            // For hatched layers the picker tints the pattern (keeping the hatch style);
+            // for custom-gradient layers one picker per stop edits the gradient itself;
+            // for solid layers it sets the layer's own color as before.
+            const ink = (isDarkMode() ? style.canvas.dark : style.canvas.light).ink;
+            const layerPattern = effectiveLayerPattern(style, layer, selected, ink);
+            const tintingPattern = layerPattern !== null && layerPattern.name !== 'none';
+            const customStops = layer.gradientColors;
+            const customGradient =
+                customStops !== undefined &&
+                layer.colorCustom !== true &&
+                layer.fillPattern === undefined;
+
+            const fillControls: HTMLElement[] = [];
+            if (customGradient) {
+                const stops = customStops;
+                const stopLabels =
+                    stops.length === 2
+                        ? ['start', 'end']
+                        : stops.length === 3
+                          ? ['start', 'middle', 'end']
+                          : stops.map((_, i) => `color ${i + 1}`);
+                stops.forEach((stop, stopIndex) => {
+                    const stopInput = document.createElement('input');
+                    stopInput.type = 'color';
+                    stopInput.className = 'tool-color';
+                    stopInput.value = stop;
+                    stopInput.title = `Gradient ${stopLabels[stopIndex]}`;
+                    stopInput.addEventListener('input', () => {
+                        stops[stopIndex] = stopInput.value;
+                        // Surgical update of this layer's own gradient def (per-layer ids
+                        // make live editing possible without touching other layers).
+                        if (svg !== null) {
+                            const stopEl = svg.querySelectorAll(`#pyr-grad-${selectedIndex} stop`)[
+                                stopIndex
+                            ];
+                            stopEl?.setAttribute('stop-color', stopInput.value);
+                        }
+                        host.onLive();
+                    });
+                    stopInput.addEventListener('change', () => host.onCommit());
+                    fillControls.push(stopInput);
+                });
+            } else {
+                const colorInput = document.createElement('input');
+                colorInput.type = 'color';
+                colorInput.className = 'tool-color';
+                colorInput.value = tintingPattern
+                    ? (layer.patternColor ?? layerPattern.color)
+                    : layer.color;
+                colorInput.title = tintingPattern ? 'Pattern color' : 'Layer color';
+                colorInput.addEventListener('input', () => {
+                    if (tintingPattern) {
+                        layer.patternColor = colorInput.value;
+                        // Surgical update of this layer's own pattern def — per-layer ids make
+                        // live tinting possible without touching other layers.
+                        if (svg !== null && selected !== null) {
+                            const line = svg.querySelector(`#pyr-pat-${selected} path`);
+                            line?.setAttribute('stroke', colorInput.value);
+                            const dot = svg.querySelector(`#pyr-pat-${selected} circle`);
+                            dot?.setAttribute('fill', colorInput.value);
+                        }
+                        host.onLive();
+                        return;
+                    }
+                    layer.color = colorInput.value;
+                    // A hand-picked color is data now: it beats style defaults AND overrides.
+                    layer.colorCustom = true;
+                    delete layer.fillPattern;
+                    delete layer.gradientColors;
+                    fillSelect.value = 'color';
+                    // Surgical fill update: rebuilding the toolbar would close the color picker.
+                    if (svg !== null && selected !== null) {
+                        const poly = svg.querySelector(
+                            `path.layer-fill[data-layer-index="${selected}"]`
+                        );
+                        poly?.setAttribute('fill', colorInput.value);
+                    }
+                    host.onLive();
+                });
+                colorInput.addEventListener('change', () => host.onCommit());
+                fillControls.push(colorInput);
+            }
 
             const widthField = (edgeIndex: number, labelText: string): HTMLSpanElement => {
                 const wrap = document.createElement('span');
@@ -592,7 +746,8 @@ export function createEditor(
             };
 
             toolbarEl.append(
-                colorInput,
+                fillSelect,
+                ...fillControls,
                 widthField(selected, 'Top'),
                 widthField(selected + 1, 'Bottom')
             );
@@ -603,6 +758,7 @@ export function createEditor(
     function renderSelectionUi(): void {
         if (svg === null) return;
         const m = model();
+        const style = getActiveStyle();
         if (selected !== null && selected >= m.layers.length) selected = null;
         const group = document.createElementNS(SVG_NS, 'g');
         group.setAttribute('class', 'editing-ui');
@@ -610,25 +766,22 @@ export function createEditor(
         if (selected !== null) {
             const tint = document.createElementNS(SVG_NS, 'polygon');
             tint.setAttribute('class', 'selection-tint');
-            tint.setAttribute('points', layerPolygonPoints(m, selected));
-            tint.setAttribute('fill', ACCENT);
+            tint.setAttribute('points', layerPolygonPoints(m, selected, style));
             tint.setAttribute('opacity', '0.12');
             tint.setAttribute('pointer-events', 'none');
             group.appendChild(tint);
 
             const inner = document.createElementNS(SVG_NS, 'polygon');
             inner.setAttribute('class', 'selection-inner');
-            inner.setAttribute('points', layerPolygonPoints(m, selected));
+            inner.setAttribute('points', layerPolygonPoints(m, selected, style));
             inner.setAttribute('fill', 'none');
             inner.setAttribute('pointer-events', 'none');
             group.appendChild(inner);
 
             const outline = document.createElementNS(SVG_NS, 'polygon');
             outline.setAttribute('class', 'selection-outline');
-            outline.setAttribute('points', layerPolygonPoints(m, selected));
+            outline.setAttribute('points', layerPolygonPoints(m, selected, style));
             outline.setAttribute('fill', 'none');
-            outline.setAttribute('stroke', ACCENT);
-            outline.setAttribute('stroke-width', '2.5');
             outline.setAttribute('pointer-events', 'none');
             group.appendChild(outline);
         }
@@ -637,7 +790,7 @@ export function createEditor(
         // centered horizontally — keeps the pyramid clean when nothing is selected.
         if (selected !== null && canAddLayer(m)) {
             for (const edge of [selected, selected + 1]) {
-                const geometry = edgeGeometry(m, edge);
+                const geometry = edgeGeometry(m, edge, style);
                 const addButton = document.createElementNS(SVG_NS, 'g');
                 addButton.setAttribute('class', 'add-layer');
                 addButton.setAttribute('data-add-edge', String(edge));
@@ -664,7 +817,7 @@ export function createEditor(
 
         if (selected !== null) {
             for (const edge of [selected, selected + 1]) {
-                const geometry = edgeGeometry(m, edge);
+                const geometry = edgeGeometry(m, edge, style);
                 for (const side of ['left', 'right'] as const) {
                     const handle = document.createElementNS(SVG_NS, 'circle');
                     handle.setAttribute('class', 'width-handle');
@@ -683,8 +836,8 @@ export function createEditor(
                 }
                 if (widthDrag !== null && widthDrag.edge === edge) {
                     const badge = document.createElementNS(SVG_NS, 'text');
-                    badge.setAttribute('x', String(edgeGeometry(m, edge).rightX));
-                    badge.setAttribute('y', String(edgeGeometry(m, edge).y - 12));
+                    badge.setAttribute('x', String(edgeGeometry(m, edge, style).rightX));
+                    badge.setAttribute('y', String(edgeGeometry(m, edge, style).y - 12));
                     badge.setAttribute('text-anchor', 'middle');
                     badge.setAttribute('class', 'drag-badge');
                     badge.textContent = String(m.widths[edge]);
@@ -694,8 +847,8 @@ export function createEditor(
         }
 
         if (layerDrag !== null && layerDrag.started) {
-            const indicatorY = PADDING + layerDrag.insertAt * layerHeightFor(m);
-            const pyramidWidth = edgeGeometry(m, 0).centerX * 2;
+            const indicatorY = style.layout.padding + layerDrag.insertAt * layerHeightFor(m, style);
+            const pyramidWidth = edgeGeometry(m, 0, style).centerX * 2;
             const indicator = document.createElementNS(SVG_NS, 'line');
             indicator.setAttribute('class', 'drop-indicator');
             indicator.setAttribute('x1', '8');
@@ -723,12 +876,17 @@ export function createEditor(
         }
         canvasEl.textContent = '';
         canvasEl.classList.add('editing');
-        svg = renderPyramidSvg(model(), { editing: true, dark: isDarkMode() });
+        svg = renderPyramidSvg(model(), {
+            editing: true,
+            dark: isDarkMode(),
+            style: getActiveStyle(),
+        });
         canvasEl.appendChild(svg);
         renderSelectionUi();
         if (layerDrag !== null && layerDrag.started) {
-            const dragged = svg.querySelector(`polygon[data-layer-index="${layerDrag.from}"]`);
-            dragged?.setAttribute('opacity', '0.45');
+            svg.querySelectorAll(`path[data-layer-index="${layerDrag.from}"]`).forEach((shape) => {
+                shape.setAttribute('opacity', '0.45');
+            });
         }
         renderToolbar();
     }

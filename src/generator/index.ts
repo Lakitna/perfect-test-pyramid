@@ -11,9 +11,19 @@ Lakitna
 
 import { createEditor, type PyramidEditor } from './editor';
 import { downloadPng, downloadSvg } from './export';
+import { injectFontFaces, loadStyleFonts } from './fonts';
 import { cloneModel, parseModel, PRESETS, type PyramidModel } from './model';
+import {
+    applyChromeVars,
+    getActiveStyle,
+    getActiveStyleId,
+    readStoredStyleId,
+    setActiveStyle,
+} from './styleState';
+import { DEFAULT_STYLE_ID, STYLES } from './styles';
+import { validateAllStyles } from './styles/validate';
 import { initTheme, isDarkMode, toggleTheme } from './theme';
-import { encodeModel, readHash, writeModelToHash } from './urlState';
+import { encodeModel, readHash, writeStateToHash } from './urlState';
 
 initTheme();
 
@@ -40,6 +50,8 @@ const exportPngButton = mustFind<HTMLButtonElement>('btn-export-png');
 const shareButton = mustFind<HTMLButtonElement>('btn-share');
 const shareMenu = mustFind<HTMLElement>('share-menu');
 const themeButton = mustFind<HTMLButtonElement>('btn-theme');
+const styleButton = mustFind<HTMLButtonElement>('btn-style');
+const styleMenu = mustFind<HTMLElement>('style-menu');
 
 let model: PyramidModel;
 let currentEncoded = '';
@@ -95,12 +107,12 @@ function syncUrl(immediate = false): void {
         urlTimer = undefined;
     }
     if (immediate) {
-        currentEncoded = writeModelToHash(model);
+        currentEncoded = writeStateToHash(model, getActiveStyleId());
         return;
     }
     urlTimer = window.setTimeout(() => {
         urlTimer = undefined;
-        currentEncoded = writeModelToHash(model);
+        currentEncoded = writeStateToHash(model, getActiveStyleId());
     }, URL_SYNC_DELAY_MS);
 }
 
@@ -109,6 +121,7 @@ function render(): void {
     warningBanner.textContent = warningMessage;
 
     updateThemeButton();
+    renderStyleMenu();
     editor.render();
     syncUrl();
 }
@@ -121,12 +134,61 @@ function updateThemeButton(): void {
 
 themeButton.addEventListener('click', () => {
     toggleTheme();
+    applyChromeVars(); // the active style's chrome tokens follow the theme
     updateThemeButton();
     editor.render(); // re-render the canvas with the new palette
 });
 
+// --- Style selector ------------------------------------------------------------
+
+function setStyleMenuOpen(open: boolean): void {
+    styleMenu.hidden = !open;
+    styleButton.setAttribute('aria-expanded', String(open));
+}
+
+function renderStyleMenu(): void {
+    const activeId = getActiveStyleId();
+    const dark = isDarkMode();
+    styleMenu.textContent = '';
+    for (const style of STYLES) {
+        const item = document.createElement('button');
+        item.type = 'button';
+        if (style.id === activeId) item.classList.add('active');
+        const swatches = document.createElement('span');
+        swatches.className = 'style-swatches';
+        const palette = dark ? style.layers.palette.dark : style.layers.palette.light;
+        for (const color of palette.slice(0, 4)) {
+            const swatch = document.createElement('span');
+            swatch.className = 'style-swatch';
+            swatch.style.background = color;
+            swatches.appendChild(swatch);
+        }
+        const name = document.createElement('span');
+        name.textContent = style.name;
+        item.append(swatches, name);
+        item.addEventListener('click', () => {
+            const applied = setActiveStyle(style.id);
+            setStyleMenuOpen(false);
+            render();
+            // Re-render once the new style's fonts are confirmed loaded (metrics!).
+            void loadStyleFonts(applied).then(() => render());
+        });
+        styleMenu.appendChild(item);
+    }
+    styleButton.textContent = `Style: ${getActiveStyle().name} ▾`;
+}
+
+styleButton.addEventListener('click', () => {
+    setStyleMenuOpen(!!styleMenu.hidden);
+});
+
 function loadFromHash(): void {
     const hash = readHash();
+    if (hash.styleId !== null) {
+        // A link carries its author's style. It wins for this page load but never
+        // overwrites the viewer's own stored preference.
+        setActiveStyle(hash.styleId, false);
+    }
     if (hash.model !== null) {
         model = hash.model;
         warningMessage = '';
@@ -174,9 +236,13 @@ shareButton.addEventListener('click', () => {
 
 document.addEventListener('pointerdown', (event: PointerEvent) => {
     const target = event.target;
-    const insideMenu = target instanceof Element && target.closest('.share-wrap') !== null;
-    if (!shareMenu.hidden && !insideMenu) {
+    const inside = (selector: string): boolean =>
+        target instanceof Element && target.closest(selector) !== null;
+    if (!shareMenu.hidden && !inside('.share-wrap')) {
         setShareMenuOpen(false);
+    }
+    if (!styleMenu.hidden && !inside('.style-wrap')) {
+        setStyleMenuOpen(false);
     }
 });
 
@@ -227,7 +293,9 @@ document.addEventListener('keydown', (event: KeyboardEvent) => {
             event.preventDefault();
         }
     } else if (key === 'escape') {
-        if (!shareMenu.hidden) {
+        if (!styleMenu.hidden) {
+            setStyleMenuOpen(false);
+        } else if (!shareMenu.hidden) {
             setShareMenuOpen(false);
         } else {
             editor.clearSelection();
@@ -238,10 +306,31 @@ document.addEventListener('keydown', (event: KeyboardEvent) => {
 window.addEventListener('hashchange', () => {
     const hash = readHash();
     const encoded = hash.model === null ? '' : encodeModel(hash.model);
-    if (encoded === currentEncoded) {
+    const styleChanged = hash.styleId !== null && hash.styleId !== getActiveStyleId();
+    if (encoded === currentEncoded && !styleChanged) {
         return; // our own URL update or an equivalent hash
     }
     loadFromHash();
 });
 
-loadFromHash();
+// --- Boot ----------------------------------------------------------------------
+
+injectFontFaces();
+// Viewer's stored preference first; a style in the URL overrides it in loadFromHash().
+setActiveStyle(readStoredStyleId() ?? DEFAULT_STYLE_ID, false);
+
+async function boot(): Promise<void> {
+    if (window.location.search.includes('validate-styles')) {
+        const issues = validateAllStyles();
+        console[issues.length === 0 ? 'log' : 'warn'](
+            issues.length === 0 ? 'style validation: all styles pass' : issues
+        );
+    }
+    // textWidth() measures with canvas metrics: gate the first render on the real fonts.
+    await loadStyleFonts(getActiveStyle());
+    loadFromHash();
+    // Warm every style's fonts so switching renders with correct metrics immediately.
+    void Promise.all(STYLES.map((style) => loadStyleFonts(style)));
+}
+
+void boot();
