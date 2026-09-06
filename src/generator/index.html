@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Test Pyramid Builder</title>
+        <meta
+            name="description"
+            content="Generate, edit and share your own test pyramid. The full pyramid lives in the page URL."
+        />
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+    <body>
+        <header class="app-header">
+            <h1 class="app-title">Test Pyramid Builder</h1>
+            <div class="controls">
+                <div class="actions">
+                    <button id="btn-theme" type="button" aria-label="Toggle dark mode">🌙</button>
+                    <div class="share-wrap">
+                        <button id="btn-share" type="button" aria-haspopup="true" aria-expanded="false" title="Copy a link to this pyramid or download it as an image">
+                            Share ▾
+                        </button>
+                        <div id="share-menu" class="share-menu" hidden>
+                            <button id="btn-copy-link" type="button">Copy link</button>
+                            <button id="btn-export-svg" type="button">Download .svg</button>
+                            <button id="btn-export-png" type="button">Download .png</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div id="warning" class="warning" hidden></div>
+
+        <main class="layout">
+            <div class="canvas-column">
+                <div id="editor-toolbar" class="toolbar" role="toolbar" aria-label="Pyramid editing tools"></div>
+                <section id="pyramid-container" aria-label="Pyramid canvas"></section>
+            </div>
+        </main>
+
+        <footer>
+            This work is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
+        </footer>
+
+        <script type="module" src="generator.js"></script>
+    </body>
+</html>

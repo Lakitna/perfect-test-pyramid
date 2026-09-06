@@ -1,0 +1,417 @@
+:root {
+    color-scheme: light;
+    --background: #f5f6f8;
+    --surface: #ffffff;
+    --border: #dfe3e8;
+    --text: #1c1c1c;
+    --text-muted: #5f6b7a;
+    --accent: #2a6df4;
+    --danger: #c0392b;
+    --hover: #eef1f5;
+}
+
+:root[data-theme='dark'] {
+    color-scheme: dark;
+    --background: #14171d;
+    --surface: #1e232b;
+    --border: #3a4250;
+    --text: #e6e9ee;
+    --text-muted: #9aa4b2;
+    --accent: #5b8cff;
+    --danger: #ff7b72;
+    --hover: #2a313c;
+}
+
+:root[data-theme='dark'] .warning {
+    color: #e8c07a;
+    background: #3a2d12;
+    border-color: #6b5114;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: var(--background);
+    color: var(--text);
+}
+
+/* --- Header ------------------------------------------------------------ */
+
+.app-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 24px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+}
+
+.app-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+}
+
+.actions {
+    display: flex;
+    gap: 6px;
+}
+
+.share-wrap {
+    position: relative;
+}
+
+.share-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    min-width: 170px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgb(0 0 0 / 15%);
+    overflow: hidden;
+}
+
+.share-menu[hidden] {
+    display: none;
+}
+
+.share-menu button {
+    padding: 10px 14px;
+    font-size: 14px;
+    text-align: left;
+    border: none;
+    border-radius: 0;
+    background: var(--surface);
+}
+
+.share-menu button:hover:not(:disabled) {
+    background: var(--hover);
+}
+
+.share-menu button:not(:last-child) {
+    border-bottom: 1px solid var(--border);
+}
+
+button {
+    padding: 8px 14px;
+    font: inherit;
+    font-size: 14px;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+    background: var(--hover);
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* --- Inline insert handles & drop indicator ---------------------------------- */
+
+.add-layer {
+    cursor: pointer;
+}
+
+.add-layer circle {
+    fill: var(--surface);
+    stroke: var(--accent);
+    stroke-width: 2;
+    filter: drop-shadow(0 1px 2px rgb(0 0 0 / 25%));
+}
+
+.add-layer:hover circle {
+    fill: var(--accent);
+}
+
+.add-layer-plus {
+    font-size: 15px;
+    font-weight: 700;
+    fill: var(--accent);
+    pointer-events: none;
+}
+
+.add-layer:hover .add-layer-plus {
+    fill: #ffffff;
+}
+
+.toolbar .tool-select {
+    padding: 6px 8px;
+    font: inherit;
+    font-size: 13px;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.drop-indicator {
+    stroke: var(--accent);
+    stroke-width: 3;
+    stroke-dasharray: 2 6;
+    stroke-linecap: round;
+    pointer-events: none;
+}
+
+button.danger {
+    color: var(--danger);
+}
+
+/* --- Warning banner ------------------------------------------------------ */
+
+.warning {
+    margin: 16px 24px 0;
+    padding: 10px 16px;
+    font-size: 14px;
+    color: #8a5a00;
+    background: #fff4e5;
+    border: 1px solid #ffd8a8;
+    border-radius: 10px;
+}
+
+/* --- Layout -------------------------------------------------------------- */
+
+.layout {
+    display: flex;
+    justify-content: center;
+    padding: 24px;
+}
+
+.canvas-column {
+    flex: 1;
+    min-width: 0;
+    max-width: 1240px;
+}
+
+#pyramid-container {
+    position: relative;
+    /* anchor for inline-edit overlays */
+    padding: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+    overflow: auto;
+}
+
+#pyramid-container svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    user-select: none;
+}
+
+/* --- Edit-mode affordances --------------------------------------------------- */
+
+#pyramid-container.editing polygon.editable {
+    cursor: pointer;
+    transition: filter 0.12s ease;
+}
+
+#pyramid-container.editing polygon.editable:hover {
+    filter: brightness(1.12);
+}
+
+/* Hover: dashed accent border accentuated by an inner solid background-colored border. */
+.hover-inner {
+    fill: none;
+    stroke: var(--surface);
+    stroke-width: 5;
+    pointer-events: none;
+}
+
+.hover-outline {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 2.5;
+    stroke-dasharray: 6 4;
+    pointer-events: none;
+}
+
+#pyramid-container.editing .editable-text {
+    cursor: text;
+}
+
+#pyramid-container.editing text.editable-text:hover {
+    text-decoration: underline dotted;
+}
+
+#pyramid-container.editing g.editable-text:hover text {
+    text-decoration: underline dotted;
+}
+
+/* --- WYSIWYG toolbar ------------------------------------------------------- */
+
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px 12px 0 0;
+}
+
+.toolbar .divider {
+    width: 1px;
+    align-self: stretch;
+    margin: 2px 6px;
+    background: var(--border);
+}
+
+.toolbar button.tool {
+    padding: 6px 10px;
+    font-size: 13px;
+}
+
+.toolbar .tool-context {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-left: 2px;
+}
+
+.toolbar input[type='color'].tool-color {
+    width: 36px;
+    height: 30px;
+    padding: 2px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface);
+    cursor: pointer;
+}
+
+.width-field {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.width-field input[type='number'] {
+    width: 58px;
+    padding: 4px 6px;
+    font: inherit;
+    font-size: 13px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+}
+
+/* --- Selection & handles ---------------------------------------------------- */
+
+.selection-inner {
+    fill: none;
+    stroke: var(--surface);
+    stroke-width: 5;
+    pointer-events: none;
+}
+
+.selection-tint {
+    fill: var(--accent);
+    pointer-events: none;
+}
+
+.selection-outline {
+    stroke: var(--accent);
+    pointer-events: none;
+}
+
+.width-handle {
+    cursor: ew-resize;
+    fill: var(--surface);
+    stroke: var(--accent);
+    stroke-width: 2;
+}
+
+.width-handle:hover {
+    fill: var(--accent);
+}
+
+.drag-badge {
+    font-size: 13px;
+    font-weight: 700;
+    fill: var(--accent);
+    pointer-events: none;
+}
+
+/* --- Inline text editing ------------------------------------------------------ */
+
+.inline-edit {
+    position: absolute;
+    z-index: 5;
+    transform: translate(-50%, -50%);
+    padding: 3px 8px;
+    font-family: inherit;
+    font-size: 14px;
+    text-align: center;
+    background: var(--surface);
+    border: 2px solid var(--accent);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgb(0 0 0 / 20%);
+}
+
+textarea.inline-edit {
+    text-align: left;
+    resize: vertical;
+}
+
+/* --- License ------------------------------------------------------------------ */
+
+footer {
+    margin-top: 5em;
+    padding: 0 24px 6px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-muted);
+    opacity: 0.5;
+}
+
+footer:hover {
+    opacity: 1;
+}
+
+footer a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px dotted currentColor;
+}
+
+footer a:hover {
+    color: var(--text);
+}
+
+/* --- Narrow screens -------------------------------------------------------- */
+
+@media (max-width: 900px) {
+    .layout {
+        padding: 12px;
+    }
+}

@@ -38,4 +38,30 @@ export default [
             externals(),
         ],
     },
+    {
+        // Web frontend: the test pyramid generator (static app in dist/web)
+        input: './src/generator/index.ts',
+        output: [{ file: 'dist/web/generator.js', format: 'es' }],
+        plugins: [
+            del({
+                targets: 'dist/web/*',
+            }),
+
+            typescript({
+                tsconfig: './tsconfig.json',
+            }),
+
+            cleanup({
+                extensions: ['.ts', '.js'],
+            }),
+
+            // Copy the static assets next to the bundle
+            copy({
+                targets: [
+                    { src: 'src/generator/index.html', dest: 'dist/web' },
+                    { src: 'src/generator/styles.css', dest: 'dist/web' },
+                ],
+            }),
+        ],
+    },
 ];
