@@ -7,8 +7,8 @@ import { contrastStyle } from './contrast';
 import { deStijlStyle } from './de-stijl';
 import { draftsmanStyle } from './draftsman';
 import { toonStyle } from './toon';
-import { unicornBarfStyle } from './unicorn-barf';
 import type { PyramidStyle } from './types';
+import { unicornStyle } from './unicorn';
 
 export type { PyramidStyle } from './types';
 export { classicStyle };
@@ -21,7 +21,7 @@ export const STYLES: PyramidStyle[] = [
     contrastStyle,
     toonStyle,
     deStijlStyle,
-    unicornBarfStyle,
+    unicornStyle,
 ];
 
 export function isValidStyleId(id: string | null | undefined): id is string {

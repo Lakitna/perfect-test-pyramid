@@ -6,6 +6,7 @@
     --text: #1c1c1c;
     --text-muted: #5f6b7a;
     --accent: #2a6df4;
+    --accent-ink: #ffffff;
     --danger: #c0392b;
     --hover: #eef1f5;
     --font-ui: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -19,6 +20,7 @@
     --text: #e6e9ee;
     --text-muted: #9aa4b2;
     --accent: #5b8cff;
+    --accent-ink: #ffffff;
     --danger: #ff7b72;
     --hover: #2a313c;
 }
@@ -437,6 +439,194 @@ footer a {
 
 footer a:hover {
     color: var(--text);
+}
+
+/* --- PNG export dialog ------------------------------------------------------ */
+
+.modal {
+    width: min(380px, calc(100vw - 32px));
+    padding: 0;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 12px 40px rgb(0 0 0 / 25%);
+}
+
+.modal::backdrop {
+    background: rgb(12 16 24 / 55%);
+}
+
+.modal-title {
+    margin: 0;
+    padding: 14px 20px;
+    font-size: 16px;
+    font-weight: 700;
+    border-bottom: 1px solid var(--border);
+}
+
+/* Checkerboard strip: the preview sits on it so transparent exports read as such. */
+.modal-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 150px;
+    padding: 14px;
+    background-color: var(--background);
+    background-image: conic-gradient(rgb(127 127 127 / 18%) 0 25%,
+            transparent 0 50%,
+            rgb(127 127 127 / 18%) 0 75%,
+            transparent 0);
+    background-size: 16px 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+.modal-preview img {
+    max-width: 320px;
+    max-height: 240px;
+}
+
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 16px 20px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 14px 20px;
+    border-top: 1px solid var(--border);
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+fieldset.field {
+    display: block;
+}
+
+.field-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+legend.field-label {
+    padding: 0;
+    margin-bottom: 6px;
+}
+
+.field-hint {
+    margin: -8px 0 0;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.field input[type='text'],
+.field input[type='number'],
+.field select {
+    padding: 8px 10px;
+    font: inherit;
+    font-size: 14px;
+    color: var(--text);
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+.field input[type='text']:focus-visible,
+.field input[type='number']:focus-visible,
+.field select:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+
+.segmented {
+    display: flex;
+    gap: 8px;
+}
+
+.segment {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.segment:has(input:checked) {
+    border-color: var(--accent);
+    background: var(--hover);
+}
+
+.segment input,
+.field-inline input {
+    accent-color: var(--accent);
+}
+
+.field-inline {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.field-inline input {
+    width: 16px;
+    height: 16px;
+}
+
+button.primary {
+    font-weight: 600;
+    color: var(--accent-ink);
+    background: var(--accent);
+    border-color: var(--accent);
+}
+
+button.primary:hover:not(:disabled) {
+    background: var(--accent);
+    filter: brightness(1.12);
+}
+
+/* --- High contrast style: the dialog keeps the style's own promises ---
+   Its accent (#002fa7 / #6c8cff) only reaches 3.5:1 with white text in dark
+   mode, so the primary button inverts to solid ink (21:1 either theme) and
+   borders thicken to the 2px weight its chips use. */
+
+:root[data-style='contrast'] .modal,
+:root[data-style='contrast'] .modal-title,
+:root[data-style='contrast'] .modal-actions,
+:root[data-style='contrast'] .modal-preview,
+:root[data-style='contrast'] .field input,
+:root[data-style='contrast'] .field select,
+:root[data-style='contrast'] .segment,
+:root[data-style='contrast'] .modal-actions button {
+    border-width: 2px;
+}
+
+:root[data-style='contrast'] button.primary {
+    color: var(--surface);
+    background: var(--text);
+    border-color: var(--text);
+}
+
+:root[data-style='contrast'] button.primary:hover:not(:disabled) {
+    background: var(--text);
+    filter: none;
 }
 
 /* --- Narrow screens -------------------------------------------------------- */

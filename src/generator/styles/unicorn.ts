@@ -5,12 +5,12 @@ const QUICKSAND = "'Quicksand'";
 const STACK = "system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif";
 
 /**
- * Unicorn barf: maximum candy. Every layer is its own diagonal pastel rainbow, bubbles
+ * Unicorn: maximum candy. Every layer is its own diagonal pastel rainbow, bubbles
  * have pink sticker shadows, glitter is scattered across the whole sheet, and Fredoka
  * rounds everything within an inch of its life. Unapologetically too much — that is the
  * point. Text contrast stays readable (deep plum on white bubbles) per the house rules.
  */
-export const unicornBarfStyle: PyramidStyle = {
+export const unicornStyle: PyramidStyle = {
     id: 'unicorn',
     name: 'Unicorn',
     typography: {
@@ -86,7 +86,7 @@ export const unicornBarfStyle: PyramidStyle = {
     sparkles: {
         count: 50,
         colors: ['#ffffff', '#ffd6f5', '#fff3b0'],
-        opacity: 0.9,
+        opacity: 0.8,
         minSize: 3,
         maxSize: 8,
     },

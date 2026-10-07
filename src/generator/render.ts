@@ -671,6 +671,8 @@ export interface RenderOptions {
     attribution?: boolean;
     /** The visual language to render in. Defaults to classic. */
     style?: PyramidStyle;
+    /** Omit the canvas background rect so the sheet stays transparent (PNG exports). */
+    transparentBackground?: boolean;
 }
 
 /**
@@ -770,15 +772,17 @@ export function renderPyramidSvg(model: PyramidModel, options: RenderOptions = {
     const defs = fillDefs(style, palette.ink, model);
     if (defs !== null) svg.appendChild(defs);
 
-    svg.appendChild(
-        svgEl('rect', {
-            x: 0,
-            y: 0,
-            width: totalWidth,
-            height: totalHeight,
-            fill: palette.background,
-        })
-    );
+    if (options.transparentBackground !== true) {
+        svg.appendChild(
+            svgEl('rect', {
+                x: 0,
+                y: 0,
+                width: totalWidth,
+                height: totalHeight,
+                fill: palette.background,
+            })
+        );
+    }
 
     // --- Sparkles (glitter under everything, deterministic per model+style) ----
     if (style.sparkles) {

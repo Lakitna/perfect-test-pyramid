@@ -10,7 +10,7 @@ Lakitna
 */
 
 import { createEditor, type PyramidEditor } from './editor';
-import { downloadPng, downloadSvg } from './export';
+import { buildSvgString, exportPng, exportSvg, measurePngSheet, renderPngPreview } from './export';
 import { injectFontFaces, loadStyleFonts } from './fonts';
 import { cloneModel, parseModel, PRESETS, type PyramidModel } from './model';
 import {
@@ -52,6 +52,24 @@ const shareMenu = mustFind<HTMLElement>('share-menu');
 const themeButton = mustFind<HTMLButtonElement>('btn-theme');
 const styleButton = mustFind<HTMLButtonElement>('btn-style');
 const styleMenu = mustFind<HTMLElement>('style-menu');
+const pngDialog = mustFind<HTMLDialogElement>('png-dialog');
+const pngFilenameInput = mustFind<HTMLInputElement>('png-filename');
+const pngThemeLightRadio = mustFind<HTMLInputElement>('png-theme-light');
+const pngThemeDarkRadio = mustFind<HTMLInputElement>('png-theme-dark');
+const pngWidthInput = mustFind<HTMLInputElement>('png-width');
+const pngSizeHint = mustFind<HTMLElement>('png-size-hint');
+const pngPreviewImg = mustFind<HTMLImageElement>('png-preview-img');
+const pngTransparentInput = mustFind<HTMLInputElement>('png-transparent');
+const pngCancelButton = mustFind<HTMLButtonElement>('png-cancel');
+const pngDownloadButton = mustFind<HTMLButtonElement>('png-download');
+const svgDialog = mustFind<HTMLDialogElement>('svg-dialog');
+const svgFilenameInput = mustFind<HTMLInputElement>('svg-filename');
+const svgThemeLightRadio = mustFind<HTMLInputElement>('svg-theme-light');
+const svgThemeDarkRadio = mustFind<HTMLInputElement>('svg-theme-dark');
+const svgTransparentInput = mustFind<HTMLInputElement>('svg-transparent');
+const svgPreviewImg = mustFind<HTMLImageElement>('svg-preview-img');
+const svgCancelButton = mustFind<HTMLButtonElement>('svg-cancel');
+const svgDownloadButton = mustFind<HTMLButtonElement>('svg-download');
 
 let model: PyramidModel;
 let currentEncoded = '';
@@ -250,27 +268,334 @@ copyButton.addEventListener('click', () => {
     void copyLink().then(() => setShareMenuOpen(false));
 });
 
-exportSvgButton.addEventListener('click', () => {
-    downloadSvg(model);
-    setShareMenuOpen(false);
-});
+// --- PNG export dialog ------------------------------------------------------
+
+// Clicking the backdrop dismisses a dialog, like its Cancel button. The dialog
+// element itself is only the click target when the click lands outside its content.
+function closeOnBackdrop(dialog: HTMLDialogElement): void {
+    dialog.addEventListener('click', (event) => {
+        if (event.target === dialog) {
+            dialog.close();
+        }
+    });
+}
+
+// Settings persist in localStorage (filename, color mode, transparency, width) so
+// the dialog opens exactly as the user left it, even across reloads.
+const PNG_SETTINGS_KEY = 'test-pyramid-png-export';
+const PNG_MIN_WIDTH = 120;
+const PNG_MAX_WIDTH = 8000;
+const PNG_DEFAULT_WIDTH = 1500;
+
+interface PngSettings {
+    filename: string;
+    width: number;
+    transparent: boolean;
+    theme: 'light' | 'dark';
+}
+
+function clampPngWidth(value: number): number {
+    if (!Number.isFinite(value)) {
+        return PNG_DEFAULT_WIDTH;
+    }
+    return Math.min(PNG_MAX_WIDTH, Math.max(PNG_MIN_WIDTH, Math.round(value)));
+}
+
+function defaultPngSettings(): PngSettings {
+    return {
+        filename: 'test-pyramid.png',
+        width: PNG_DEFAULT_WIDTH,
+        transparent: false,
+        theme: isDarkMode() ? 'dark' : 'light',
+    };
+}
+
+function readPngSettings(): PngSettings {
+    const fallback = defaultPngSettings();
+    try {
+        const raw = window.localStorage.getItem(PNG_SETTINGS_KEY);
+        if (raw === null) {
+            return fallback;
+        }
+        const stored = JSON.parse(raw) as Partial<PngSettings>;
+        return {
+            filename:
+                typeof stored.filename === 'string' && stored.filename.trim() !== ''
+                    ? stored.filename
+                    : fallback.filename,
+            width:
+                typeof stored.width === 'number' &&
+                stored.width >= PNG_MIN_WIDTH &&
+                stored.width <= PNG_MAX_WIDTH
+                    ? clampPngWidth(stored.width)
+                    : fallback.width,
+            transparent: stored.transparent === true,
+            theme:
+                stored.theme === 'dark' || stored.theme === 'light' ? stored.theme : fallback.theme,
+        };
+    } catch {
+        return fallback;
+    }
+}
+
+function writePngSettings(settings: PngSettings): void {
+    try {
+        window.localStorage.setItem(PNG_SETTINGS_KEY, JSON.stringify(settings));
+    } catch {
+        // Private mode or quota — the dialog still works, just forgetful.
+    }
+}
+
+let pngSettings = readPngSettings();
+
+function normalizeFilename(raw: string, fallback: string, extension: string): string {
+    const cleaned = raw.trim().replace(/[\\/:*?"<>|]/g, '');
+    if (cleaned === '') {
+        return fallback;
+    }
+    const suffix = `.${extension}`;
+    return cleaned.toLowerCase().endsWith(suffix) ? cleaned : cleaned + suffix;
+}
+
+/** Sheet size at scale 1 for the dialog's current color mode and transparency. */
+function currentPngSheet(): { width: number; height: number } {
+    return measurePngSheet(model, {
+        dark: pngThemeDarkRadio.checked,
+        transparent: pngTransparentInput.checked,
+    });
+}
+
+/** Rasterization scale that makes the sheet exactly `width` pixels wide. */
+function pngExportScale(width: number): number {
+    return Math.min(10, Math.max(0.1, width / currentPngSheet().width));
+}
+
+function updatePngSizeHint(): void {
+    const sheet = currentPngSheet();
+    const width = clampPngWidth(Number(pngWidthInput.value));
+    const height = Math.round((width * sheet.height) / sheet.width);
+    pngSizeHint.textContent = `Exports at about ${width} × ${height} px`;
+}
+
+// --- Live preview -------------------------------------------------------------
+
+let previewTimer: number | undefined;
+let previewToken = 0;
+
+function schedulePngPreview(): void {
+    window.clearTimeout(previewTimer);
+    previewTimer = window.setTimeout(() => void updatePngPreview(), 150);
+}
+
+async function updatePngPreview(): Promise<void> {
+    const token = ++previewToken;
+    const dark = pngThemeDarkRadio.checked;
+    const transparent = pngTransparentInput.checked;
+    try {
+        const blob = await renderPngPreview(model, { dark, transparent });
+        if (token !== previewToken || !pngDialog.open) {
+            return;
+        }
+        const url = URL.createObjectURL(blob);
+        if (pngPreviewImg.dataset.url !== undefined) {
+            URL.revokeObjectURL(pngPreviewImg.dataset.url);
+        }
+        pngPreviewImg.dataset.url = url;
+        pngPreviewImg.src = url;
+        pngPreviewImg.hidden = false;
+    } catch {
+        if (token === previewToken) {
+            pngSizeHint.textContent = 'Preview unavailable — the download will still be attempted.';
+        }
+    }
+}
+
+// --- Dialog wiring --------------------------------------------------------------
+
+function applyPngSettingsToUi(): void {
+    pngFilenameInput.value = pngSettings.filename;
+    pngWidthInput.value = String(pngSettings.width);
+    pngTransparentInput.checked = pngSettings.transparent;
+    (pngSettings.theme === 'dark' ? pngThemeDarkRadio : pngThemeLightRadio).checked = true;
+}
+
+function openPngDialog(): void {
+    applyPngSettingsToUi();
+    pngDialog.showModal();
+    pngFilenameInput.focus();
+    pngFilenameInput.select();
+    updatePngSizeHint();
+    schedulePngPreview();
+}
 
 exportPngButton.addEventListener('click', () => {
-    exportPngButton.disabled = true;
     setShareMenuOpen(false);
-    downloadPng(model)
-        .catch((error: unknown) => {
-            warningMessage = `PNG export failed: ${String(error)}`;
-            warningBanner.hidden = false;
-            warningBanner.textContent = warningMessage;
-        })
-        .finally(() => {
-            exportPngButton.disabled = false;
+    openPngDialog();
+});
+
+pngCancelButton.addEventListener('click', () => {
+    pngDialog.close();
+});
+
+closeOnBackdrop(pngDialog);
+
+for (const control of [pngTransparentInput, pngThemeLightRadio, pngThemeDarkRadio]) {
+    control.addEventListener('change', () => {
+        schedulePngPreview();
+    });
+}
+
+// A width change only rescales the sheet — the preview image itself is identical,
+// so just the dimension hint is refreshed.
+pngWidthInput.addEventListener('input', updatePngSizeHint);
+
+pngDownloadButton.addEventListener('click', () => {
+    const settings: PngSettings = {
+        filename: normalizeFilename(pngFilenameInput.value, 'test-pyramid.png', 'png'),
+        width: clampPngWidth(Number(pngWidthInput.value)),
+        transparent: pngTransparentInput.checked,
+        theme: pngThemeDarkRadio.checked ? 'dark' : 'light',
+    };
+    pngSettings = settings;
+    writePngSettings(settings);
+    const scale = pngExportScale(settings.width);
+    pngDialog.close();
+    exportPng(model, {
+        filename: settings.filename,
+        dark: settings.theme === 'dark',
+        scale,
+        transparent: settings.transparent,
+    }).catch((error: unknown) => {
+        warningMessage = `PNG export failed: ${String(error)}`;
+        warningBanner.hidden = false;
+        warningBanner.textContent = warningMessage;
+    });
+});
+
+// --- SVG export dialog --------------------------------------------------------
+
+const SVG_SETTINGS_KEY = 'test-pyramid-svg-export';
+
+interface SvgSettings {
+    filename: string;
+    transparent: boolean;
+    theme: 'light' | 'dark';
+}
+
+function defaultSvgSettings(): SvgSettings {
+    return {
+        filename: 'test-pyramid.svg',
+        transparent: false,
+        theme: isDarkMode() ? 'dark' : 'light',
+    };
+}
+
+function readSvgSettings(): SvgSettings {
+    const fallback = defaultSvgSettings();
+    try {
+        const raw = window.localStorage.getItem(SVG_SETTINGS_KEY);
+        if (raw === null) {
+            return fallback;
+        }
+        const stored = JSON.parse(raw) as Partial<SvgSettings>;
+        return {
+            filename:
+                typeof stored.filename === 'string' && stored.filename.trim() !== ''
+                    ? stored.filename
+                    : fallback.filename,
+            transparent: stored.transparent === true,
+            theme:
+                stored.theme === 'dark' || stored.theme === 'light' ? stored.theme : fallback.theme,
+        };
+    } catch {
+        return fallback;
+    }
+}
+
+function writeSvgSettings(settings: SvgSettings): void {
+    try {
+        window.localStorage.setItem(SVG_SETTINGS_KEY, JSON.stringify(settings));
+    } catch {
+        // Private mode or quota — the dialog still works, just forgetful.
+    }
+}
+
+let svgSettings = readSvgSettings();
+
+// SVG is vector output: no rasterization step, so the preview is the exact export
+// bytes wrapped in a blob URL. Rebuilt synchronously on every setting change.
+function updateSvgPreview(): void {
+    try {
+        const svgString = buildSvgString(model, {
+            dark: svgThemeDarkRadio.checked,
+            transparent: svgTransparentInput.checked,
         });
+        const url = URL.createObjectURL(
+            new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' })
+        );
+        if (svgPreviewImg.dataset.url !== undefined) {
+            URL.revokeObjectURL(svgPreviewImg.dataset.url);
+        }
+        svgPreviewImg.dataset.url = url;
+        svgPreviewImg.src = url;
+        svgPreviewImg.hidden = false;
+    } catch {
+        svgPreviewImg.hidden = true;
+    }
+}
+
+function openSvgDialog(): void {
+    svgFilenameInput.value = svgSettings.filename;
+    svgTransparentInput.checked = svgSettings.transparent;
+    (svgSettings.theme === 'dark' ? svgThemeDarkRadio : svgThemeLightRadio).checked = true;
+    svgDialog.showModal();
+    svgFilenameInput.focus();
+    svgFilenameInput.select();
+    updateSvgPreview();
+}
+
+exportSvgButton.addEventListener('click', () => {
+    setShareMenuOpen(false);
+    openSvgDialog();
+});
+
+svgCancelButton.addEventListener('click', () => {
+    svgDialog.close();
+});
+
+closeOnBackdrop(svgDialog);
+
+for (const control of [svgTransparentInput, svgThemeLightRadio, svgThemeDarkRadio]) {
+    control.addEventListener('change', updateSvgPreview);
+}
+
+svgDownloadButton.addEventListener('click', () => {
+    const settings: SvgSettings = {
+        filename: normalizeFilename(svgFilenameInput.value, 'test-pyramid.svg', 'svg'),
+        transparent: svgTransparentInput.checked,
+        theme: svgThemeDarkRadio.checked ? 'dark' : 'light',
+    };
+    svgSettings = settings;
+    writeSvgSettings(settings);
+    svgDialog.close();
+    try {
+        exportSvg(model, {
+            filename: settings.filename,
+            dark: settings.theme === 'dark',
+            transparent: settings.transparent,
+        });
+    } catch (error: unknown) {
+        warningMessage = `SVG export failed: ${String(error)}`;
+        warningBanner.hidden = false;
+        warningBanner.textContent = warningMessage;
+    }
 });
 
 // --- Keyboard shortcuts (WYSIWYG conventions) -------------------------------
 document.addEventListener('keydown', (event: KeyboardEvent) => {
+    if (pngDialog.open || svgDialog.open) {
+        return; // the modal owns its keys (ESC closes it natively)
+    }
     const target = event.target as HTMLElement | null;
     const typing =
         target !== null &&

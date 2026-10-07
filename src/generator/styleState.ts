@@ -54,6 +54,7 @@ const CHROME_VARS = [
     '--text',
     '--text-muted',
     '--accent',
+    '--accent-ink',
     '--danger',
     '--hover',
     '--font-ui',
@@ -62,6 +63,8 @@ const CHROME_VARS = [
 /**
  * Write the style's chrome tokens onto the root element as inline CSS custom properties,
  * overriding the classic defaults in styles.css. Called on style change AND theme toggle.
+ * Optional tokens a style omits (like --accent-ink) are removed, falling back to the
+ * stylesheet default.
  */
 export function applyChromeVars(
     style: PyramidStyle = getActiveStyle(),
@@ -69,6 +72,13 @@ export function applyChromeVars(
 ): void {
     const tokens = dark ? style.chrome.dark : style.chrome.light;
     for (const name of CHROME_VARS) {
-        document.documentElement.style.setProperty(name, tokens[name]);
+        const value = tokens[name];
+        if (value === undefined) {
+            document.documentElement.style.removeProperty(name);
+        } else {
+            document.documentElement.style.setProperty(name, value);
+        }
     }
+    // Lets CSS key style-specific chrome (e.g. the High contrast dialog rules).
+    document.documentElement.dataset.style = style.id;
 }

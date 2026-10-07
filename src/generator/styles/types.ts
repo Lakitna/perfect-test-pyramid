@@ -140,6 +140,12 @@ export interface ChromeTokens {
     '--text': string;
     '--text-muted': string;
     '--accent': string;
+    /**
+     * Readable text color ON accent-filled surfaces (primary buttons). Optional: styles
+     * with saturated/dark accents can rely on the stylesheet default (white); styles whose
+     * accent is a light paper color (draftsman dark) must set a dark ink here.
+     */
+    '--accent-ink'?: string;
     '--danger': string;
     '--hover': string;
     '--font-ui': string;

@@ -111,6 +111,8 @@ export const draftsmanStyle: PyramidStyle = {
             '--text': '#1c1c1a',
             '--text-muted': '#6b6a64',
             '--accent': '#1c1c1a',
+            // The accent is graphite ink — accent-filled surfaces need paper text.
+            '--accent-ink': '#fbfaf6',
             '--danger': '#a4161a',
             '--hover': '#e7e2d5',
             '--font-ui': `${MONO}, ${STACK}`,
@@ -122,6 +124,8 @@ export const draftsmanStyle: PyramidStyle = {
             '--text': '#f2efe6',
             '--text-muted': '#a8a49a',
             '--accent': '#f2efe6',
+            // The accent is paper itself — white-on-paper would vanish, so use ink.
+            '--accent-ink': '#17181a',
             '--danger': '#e06060',
             '--hover': '#222326',
             '--font-ui': `${MONO}, ${STACK}`,

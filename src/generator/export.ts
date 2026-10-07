@@ -2,7 +2,6 @@ import { fontFaceCss } from './fonts';
 import type { PyramidModel } from './model';
 import { renderPyramidSvg, serializeSvg } from './render';
 import { getActiveStyle } from './styleState';
-import { isDarkMode } from './theme';
 
 function triggerDownload(objectUrl: string, filename: string): void {
     const anchor = document.createElement('a');
@@ -14,39 +13,88 @@ function triggerDownload(objectUrl: string, filename: string): void {
     window.setTimeout(() => URL.revokeObjectURL(objectUrl), 2000);
 }
 
-/**
- * Download the pyramid (with legend) as a standalone .svg file, in the active style and
- * theme. The style's @font-face rules (data URIs) are embedded so the file renders the
- * same everywhere, offline.
- */
-export function downloadSvg(model: PyramidModel, filename = 'test-pyramid.svg'): void {
-    const style = getActiveStyle();
-    const svgString = serializeSvg(
-        renderPyramidSvg(model, { style, dark: isDarkMode(), attribution: true }),
-        { embedFontCss: fontFaceCss(style.typography.fonts) }
-    );
-    const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
-    triggerDownload(URL.createObjectURL(blob), filename);
+export interface SvgExportOptions {
+    /** Download name for the file; the modal normalizes it to end in .svg. */
+    filename: string;
+    /** Render with the dark palette — independent of the app's current theme. */
+    dark: boolean;
+    /** Omit the paper background so the SVG sheet stays transparent. */
+    transparent: boolean;
 }
 
 /**
- * Download the pyramid (with legend) as a .png file, in the active style and theme.
- * The SVG is rasterized through a data-URL Image onto a canvas, which keeps the canvas
- * untainted — the embedded fonts travel as data URIs inside that same URL.
+ * Serialize the pyramid (with legend) as a standalone SVG document string, in the
+ * active style. The style's @font-face rules (data URIs) are embedded so the file
+ * renders the same everywhere, offline — which also lets the string double as an
+ * <img> preview inside the export dialog.
  */
-export async function downloadPng(
+export function buildSvgString(
     model: PyramidModel,
-    filename = 'test-pyramid.png',
-    scale = 2
-): Promise<void> {
+    options: { dark: boolean; transparent: boolean }
+): string {
     const style = getActiveStyle();
-    const dark = isDarkMode();
-    const svg = renderPyramidSvg(model, { style, dark, attribution: true });
+    return serializeSvg(
+        renderPyramidSvg(model, {
+            style,
+            dark: options.dark,
+            attribution: true,
+            transparentBackground: options.transparent,
+        }),
+        { embedFontCss: fontFaceCss(style.typography.fonts) }
+    );
+}
+
+/**
+ * Download the pyramid as a standalone .svg file, in the active style, with the color
+ * mode, background transparency and file name chosen by the caller.
+ */
+export function exportSvg(model: PyramidModel, options: SvgExportOptions): void {
+    const blob = new Blob([buildSvgString(model, options)], {
+        type: 'image/svg+xml;charset=utf-8',
+    });
+    triggerDownload(URL.createObjectURL(blob), options.filename);
+}
+
+export interface PngExportOptions {
+    /** Download name for the file; the modal normalizes it to end in .png. */
+    filename: string;
+    /** Render with the dark palette — independent of the app's current theme. */
+    dark: boolean;
+    /** Rasterization pixel ratio. 2 gives retina quality. */
+    scale: number;
+    /** Omit the paper background so the PNG keeps its alpha channel. */
+    transparent: boolean;
+}
+
+interface PngSheet {
+    svgString: string;
+    /** Sheet size at scale 1 — the modal converts pixel widths through this. */
+    width: number;
+    height: number;
+}
+
+function buildPngSheet(model: PyramidModel, dark: boolean, transparent: boolean): PngSheet {
+    const style = getActiveStyle();
+    const svg = renderPyramidSvg(model, {
+        style,
+        dark,
+        attribution: true,
+        transparentBackground: transparent,
+    });
     const svgString = serializeSvg(svg, { embedFontCss: fontFaceCss(style.typography.fonts) });
     const viewBox = svg.viewBox.baseVal;
+    return { svgString, width: viewBox.width, height: viewBox.height };
+}
 
+async function rasterizeSheet(
+    sheet: PngSheet,
+    dark: boolean,
+    transparent: boolean,
+    scale: number
+): Promise<Blob> {
+    const style = getActiveStyle();
     const image = new Image();
-    const dataUrl = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgString);
+    const dataUrl = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(sheet.svgString);
     await new Promise<void>((resolve, reject) => {
         image.onload = () => resolve();
         image.onerror = () => reject(new Error('Could not rasterize the pyramid SVG'));
@@ -54,19 +102,56 @@ export async function downloadPng(
     });
 
     const canvas = document.createElement('canvas');
-    canvas.width = Math.round(viewBox.width * scale);
-    canvas.height = Math.round(viewBox.height * scale);
+    canvas.width = Math.round(sheet.width * scale);
+    canvas.height = Math.round(sheet.height * scale);
     const context = canvas.getContext('2d');
     if (context === null) {
         throw new Error('Canvas 2D rendering context is not available');
     }
-    context.fillStyle = (dark ? style.canvas.dark : style.canvas.light).background;
-    context.fillRect(0, 0, canvas.width, canvas.height);
+    if (!transparent) {
+        context.fillStyle = (dark ? style.canvas.dark : style.canvas.light).background;
+        context.fillRect(0, 0, canvas.width, canvas.height);
+    }
     context.drawImage(image, 0, 0, canvas.width, canvas.height);
 
     const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, 'image/png'));
     if (blob === null) {
         throw new Error('Could not encode the pyramid as PNG');
     }
-    triggerDownload(URL.createObjectURL(blob), filename);
+    return blob;
+}
+
+/**
+ * Download the pyramid (with legend) as a .png file, in the active style, with the
+ * theme, scale, background transparency and file name chosen by the caller.
+ * The SVG is rasterized through a data-URL Image onto a canvas, which keeps the canvas
+ * untainted — the embedded fonts travel as data URIs inside that same URL.
+ */
+export async function exportPng(model: PyramidModel, options: PngExportOptions): Promise<void> {
+    const sheet = buildPngSheet(model, options.dark, options.transparent);
+    const blob = await rasterizeSheet(sheet, options.dark, options.transparent, options.scale);
+    triggerDownload(URL.createObjectURL(blob), options.filename);
+}
+
+/** Sheet size in pixels at scale 1 — lets the modal convert a width into a scale. */
+export function measurePngSheet(
+    model: PyramidModel,
+    options: { dark: boolean; transparent: boolean }
+): { width: number; height: number } {
+    const sheet = buildPngSheet(model, options.dark, options.transparent);
+    return { width: sheet.width, height: sheet.height };
+}
+
+/**
+ * Rasterize a small preview of the PNG export (theme and transparency applied) without
+ * triggering a download. The sheet is never previewed above scale 1.
+ */
+export async function renderPngPreview(
+    model: PyramidModel,
+    options: { dark: boolean; transparent: boolean },
+    maxWidth = 320
+): Promise<Blob> {
+    const sheet = buildPngSheet(model, options.dark, options.transparent);
+    const scale = Math.min(1, maxWidth / sheet.width);
+    return rasterizeSheet(sheet, options.dark, options.transparent, scale);
 }
