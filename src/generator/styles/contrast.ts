@@ -57,7 +57,8 @@ export const contrastStyle: PyramidStyle = {
         patternStroke: 1,
         patternOpacity: 1,
     },
-    stroke: { layerOutline: 0, separatorWidth: 3 },
+    // Wide ground-colored gaps between layers: every band reads as its own object.
+    stroke: { layerOutline: 0, separatorWidth: 6 },
     jitter: { amplitude: 0, segmentLength: 24, salt: 0 },
     label: {
         mode: 'chip',

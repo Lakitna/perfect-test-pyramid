@@ -21,6 +21,7 @@ const MANIFEST = [
     { pkg: 'jost', family: 'Jost', weights: [400, 500, 600] },
     { pkg: 'fredoka', family: 'Fredoka', weights: [400, 600, 700] },
     { pkg: 'quicksand', family: 'Quicksand', weights: [400, 500] },
+    { pkg: 'montserrat', family: 'Montserrat', weights: [400, 600, 700] },
 ];
 
 const faces = [];

@@ -2,6 +2,7 @@
  * Style registry. Adding a visual language = one new file + one entry here.
  * Ids are public API: they live in shared URLs (`#s=`) and localStorage — never rename.
  */
+import { bartoszStyle } from './bartosz';
 import { classicStyle } from './classic';
 import { contrastStyle } from './contrast';
 import { deStijlStyle } from './de-stijl';
@@ -22,6 +23,7 @@ export const STYLES: PyramidStyle[] = [
     toonStyle,
     deStijlStyle,
     unicornStyle,
+    bartoszStyle,
 ];
 
 export function isValidStyleId(id: string | null | undefined): id is string {

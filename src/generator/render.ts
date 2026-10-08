@@ -646,9 +646,9 @@ function renderLabel(
         })
     );
     const text = svgEl('text', {
-        x: chipX + t.padX,
+        x: centerX,
         y: textY,
-        'text-anchor': 'start',
+        'text-anchor': 'middle',
         'font-size': role.size,
         'font-weight': role.weight,
         'data-layer-index': layerIndex,
