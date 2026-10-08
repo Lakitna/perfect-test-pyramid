@@ -64,7 +64,7 @@ export const draftsmanStyle: PyramidStyle = {
             { name: 'none' },
         ],
         patternSpacing: 10,
-        patternStroke: 1.5,
+        patternStroke: 2,
         patternOpacity: 0.75,
     },
     stroke: { layerOutline: 1.5, separatorWidth: 1 },
