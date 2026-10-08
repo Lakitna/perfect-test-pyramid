@@ -16,6 +16,7 @@ const contentTypes = {
     '.svg': 'image/svg+xml',
     '.png': 'image/png',
     '.json': 'application/json',
+    '.woff2': 'font/woff2',
 };
 
 createServer(async (request, response) => {
@@ -32,8 +33,13 @@ createServer(async (request, response) => {
     try {
         const data = await readFile(filePath);
         const type = contentTypes[extname(filePath)] ?? 'application/octet-stream';
-        // Dev server: always serve the freshly built files.
-        response.writeHead(200, { 'content-type': type, 'cache-control': 'no-store' }).end(data);
+        // Dev server: always serve the freshly built files. Font files carry a content
+        // hash in their name, so they can be served with long-cache headers — exactly
+        // what a production static host should do for them.
+        const cache = requested.startsWith('fonts/')
+            ? 'public, max-age=31536000, immutable'
+            : 'no-store';
+        response.writeHead(200, { 'content-type': type, 'cache-control': cache }).end(data);
     } catch {
         response.writeHead(404).end('Not found');
     }

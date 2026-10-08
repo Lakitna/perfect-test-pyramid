@@ -11,7 +11,7 @@ Lakitna
 
 import { createEditor, type PyramidEditor } from './editor';
 import { buildSvgString, exportPng, exportSvg, measurePngSheet, renderPngPreview } from './export';
-import { injectFontFaces, loadStyleFonts } from './fonts';
+import { ensureFontFaces, loadStyleFonts } from './fonts';
 import { cloneModel, parseModel, PRESETS, type PyramidModel } from './model';
 import {
     applyChromeVars,
@@ -200,7 +200,7 @@ styleButton.addEventListener('click', () => {
     setStyleMenuOpen(!!styleMenu.hidden);
 });
 
-function loadFromHash(): void {
+async function loadFromHash(): Promise<void> {
     const hash = readHash();
     if (hash.styleId !== null) {
         // A link carries its author's style. It wins for this page load but never
@@ -220,6 +220,9 @@ function loadFromHash(): void {
     history.length = 0;
     historyIndex = -1;
     pushHistory();
+    // textWidth() measures with canvas metrics: gate the render on the real fonts of
+    // the style we are about to draw — and only that style's (fonts load lazily).
+    await loadStyleFonts(getActiveStyle());
     render();
 }
 
@@ -523,13 +526,20 @@ function writeSvgSettings(settings: SvgSettings): void {
 let svgSettings = readSvgSettings();
 
 // SVG is vector output: no rasterization step, so the preview is the exact export
-// bytes wrapped in a blob URL. Rebuilt synchronously on every setting change.
-function updateSvgPreview(): void {
+// bytes wrapped in a blob URL. Font bytes are fetched on demand, so the rebuild is
+// async; a token guard drops results from settings changes that were superseded.
+let svgPreviewToken = 0;
+
+async function updateSvgPreview(): Promise<void> {
+    const token = ++svgPreviewToken;
     try {
-        const svgString = buildSvgString(model, {
+        const svgString = await buildSvgString(model, {
             dark: svgThemeDarkRadio.checked,
             transparent: svgTransparentInput.checked,
         });
+        if (token !== svgPreviewToken || !svgDialog.open) {
+            return; // a newer change (or a closed dialog) won
+        }
         const url = URL.createObjectURL(
             new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' })
         );
@@ -540,7 +550,9 @@ function updateSvgPreview(): void {
         svgPreviewImg.src = url;
         svgPreviewImg.hidden = false;
     } catch {
-        svgPreviewImg.hidden = true;
+        if (token === svgPreviewToken) {
+            svgPreviewImg.hidden = true;
+        }
     }
 }
 
@@ -551,7 +563,7 @@ function openSvgDialog(): void {
     svgDialog.showModal();
     svgFilenameInput.focus();
     svgFilenameInput.select();
-    updateSvgPreview();
+    void updateSvgPreview();
 }
 
 exportSvgButton.addEventListener('click', () => {
@@ -566,7 +578,7 @@ svgCancelButton.addEventListener('click', () => {
 closeOnBackdrop(svgDialog);
 
 for (const control of [svgTransparentInput, svgThemeLightRadio, svgThemeDarkRadio]) {
-    control.addEventListener('change', updateSvgPreview);
+    control.addEventListener('change', () => void updateSvgPreview());
 }
 
 svgDownloadButton.addEventListener('click', () => {
@@ -578,17 +590,15 @@ svgDownloadButton.addEventListener('click', () => {
     svgSettings = settings;
     writeSvgSettings(settings);
     svgDialog.close();
-    try {
-        exportSvg(model, {
-            filename: settings.filename,
-            dark: settings.theme === 'dark',
-            transparent: settings.transparent,
-        });
-    } catch (error: unknown) {
+    exportSvg(model, {
+        filename: settings.filename,
+        dark: settings.theme === 'dark',
+        transparent: settings.transparent,
+    }).catch((error: unknown) => {
         warningMessage = `SVG export failed: ${String(error)}`;
         warningBanner.hidden = false;
         warningBanner.textContent = warningMessage;
-    }
+    });
 });
 
 // --- Keyboard shortcuts (WYSIWYG conventions) -------------------------------
@@ -635,14 +645,16 @@ window.addEventListener('hashchange', () => {
     if (encoded === currentEncoded && !styleChanged) {
         return; // our own URL update or an equivalent hash
     }
-    loadFromHash();
+    void loadFromHash();
 });
 
 // --- Boot ----------------------------------------------------------------------
 
-injectFontFaces();
 // Viewer's stored preference first; a style in the URL overrides it in loadFromHash().
 setActiveStyle(readStoredStyleId() ?? DEFAULT_STYLE_ID, false);
+// Only the active style's @font-face rules go in at boot — other styles' faces are
+// injected (and fetched) lazily when loadStyleFonts runs for them on first switch.
+ensureFontFaces(getActiveStyle().typography.fonts);
 
 async function boot(): Promise<void> {
     if (window.location.search.includes('validate-styles')) {
@@ -652,10 +664,9 @@ async function boot(): Promise<void> {
         );
     }
     // textWidth() measures with canvas metrics: gate the first render on the real fonts.
-    await loadStyleFonts(getActiveStyle());
-    loadFromHash();
-    // Warm every style's fonts so switching renders with correct metrics immediately.
-    void Promise.all(STYLES.map((style) => loadStyleFonts(style)));
+    await loadFromHash();
+    // Fonts for the other styles load lazily on first switch (render + re-render once
+    // loaded) — boot never downloads more than the active style's few woff2 files.
 }
 
 void boot();

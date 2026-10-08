@@ -1088,7 +1088,7 @@ export function renderPyramidSvg(model: PyramidModel, options: RenderOptions = {
 export interface SerializeOptions {
     /**
      * `@font-face` CSS (with data-URI sources) inlined as a <style> child so the exported
-     * SVG renders with the style's fonts anywhere, offline. Build it with `fontFaceCss()`.
+     * SVG renders with the style's fonts anywhere, offline. Build it with `embeddedFontFaceCss()`.
      */
     embedFontCss?: string;
 }

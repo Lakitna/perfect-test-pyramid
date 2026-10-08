@@ -1,4 +1,4 @@
-import { fontFaceCss } from './fonts';
+import { embeddedFontFaceCss } from './fonts';
 import type { PyramidModel } from './model';
 import { renderPyramidSvg, serializeSvg } from './render';
 import { getActiveStyle } from './styleState';
@@ -24,14 +24,14 @@ export interface SvgExportOptions {
 
 /**
  * Serialize the pyramid (with legend) as a standalone SVG document string, in the
- * active style. The style's @font-face rules (data URIs) are embedded so the file
- * renders the same everywhere, offline — which also lets the string double as an
- * <img> preview inside the export dialog.
+ * active style. The style's @font-face rules are embedded with data URIs (fetched from
+ * the static font files on demand) so the file renders the same everywhere, offline —
+ * which also lets the string double as an <img> preview inside the export dialog.
  */
-export function buildSvgString(
+export async function buildSvgString(
     model: PyramidModel,
     options: { dark: boolean; transparent: boolean }
-): string {
+): Promise<string> {
     const style = getActiveStyle();
     return serializeSvg(
         renderPyramidSvg(model, {
@@ -40,7 +40,7 @@ export function buildSvgString(
             attribution: true,
             transparentBackground: options.transparent,
         }),
-        { embedFontCss: fontFaceCss(style.typography.fonts) }
+        { embedFontCss: await embeddedFontFaceCss(style.typography.fonts) }
     );
 }
 
@@ -48,8 +48,8 @@ export function buildSvgString(
  * Download the pyramid as a standalone .svg file, in the active style, with the color
  * mode, background transparency and file name chosen by the caller.
  */
-export function exportSvg(model: PyramidModel, options: SvgExportOptions): void {
-    const blob = new Blob([buildSvgString(model, options)], {
+export async function exportSvg(model: PyramidModel, options: SvgExportOptions): Promise<void> {
+    const blob = new Blob([await buildSvgString(model, options)], {
         type: 'image/svg+xml;charset=utf-8',
     });
     triggerDownload(URL.createObjectURL(blob), options.filename);
@@ -73,7 +73,11 @@ interface PngSheet {
     height: number;
 }
 
-function buildPngSheet(model: PyramidModel, dark: boolean, transparent: boolean): PngSheet {
+async function buildPngSheet(
+    model: PyramidModel,
+    dark: boolean,
+    transparent: boolean
+): Promise<PngSheet> {
     const style = getActiveStyle();
     const svg = renderPyramidSvg(model, {
         style,
@@ -81,7 +85,9 @@ function buildPngSheet(model: PyramidModel, dark: boolean, transparent: boolean)
         attribution: true,
         transparentBackground: transparent,
     });
-    const svgString = serializeSvg(svg, { embedFontCss: fontFaceCss(style.typography.fonts) });
+    const svgString = serializeSvg(svg, {
+        embedFontCss: await embeddedFontFaceCss(style.typography.fonts),
+    });
     const viewBox = svg.viewBox.baseVal;
     return { svgString, width: viewBox.width, height: viewBox.height };
 }
@@ -128,18 +134,24 @@ async function rasterizeSheet(
  * untainted — the embedded fonts travel as data URIs inside that same URL.
  */
 export async function exportPng(model: PyramidModel, options: PngExportOptions): Promise<void> {
-    const sheet = buildPngSheet(model, options.dark, options.transparent);
+    const sheet = await buildPngSheet(model, options.dark, options.transparent);
     const blob = await rasterizeSheet(sheet, options.dark, options.transparent, options.scale);
     triggerDownload(URL.createObjectURL(blob), options.filename);
 }
 
-/** Sheet size in pixels at scale 1 — lets the modal convert a width into a scale. */
+/** Sheet size in pixels at scale 1 — lets the modal convert a width into a scale. ViewBox only: no fonts fetched or serialized. */
 export function measurePngSheet(
     model: PyramidModel,
     options: { dark: boolean; transparent: boolean }
 ): { width: number; height: number } {
-    const sheet = buildPngSheet(model, options.dark, options.transparent);
-    return { width: sheet.width, height: sheet.height };
+    const svg = renderPyramidSvg(model, {
+        style: getActiveStyle(),
+        dark: options.dark,
+        attribution: true,
+        transparentBackground: options.transparent,
+    });
+    const viewBox = svg.viewBox.baseVal;
+    return { width: viewBox.width, height: viewBox.height };
 }
 
 /**
@@ -151,7 +163,7 @@ export async function renderPngPreview(
     options: { dark: boolean; transparent: boolean },
     maxWidth = 320
 ): Promise<Blob> {
-    const sheet = buildPngSheet(model, options.dark, options.transparent);
+    const sheet = await buildPngSheet(model, options.dark, options.transparent);
     const scale = Math.min(1, maxWidth / sheet.width);
     return rasterizeSheet(sheet, options.dark, options.transparent, scale);
 }

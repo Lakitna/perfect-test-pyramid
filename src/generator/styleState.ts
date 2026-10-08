@@ -7,7 +7,7 @@ import { isDarkMode } from './theme';
  * own preference. Precedence: URL > localStorage > default.
  */
 
-const STORAGE_KEY = 'test-py…style';
+const STORAGE_KEY = 'test-pyramid-style';
 
 let activeId: string = DEFAULT_STYLE_ID;
 

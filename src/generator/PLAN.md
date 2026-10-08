@@ -132,19 +132,27 @@ interface PyramidModel {
 
 - `rollup.config.js`: second bundle config — input `src/generator/index.ts` →
   `dist/web/generator.js` (format `es`), plugins: `del('dist/web/*')`, `typescript` (same tsconfig;
-  DOM types available via default `esnext` lib), `cleanup`, `copy` (HTML + CSS). No `externals()`
-  for the web bundle.
+  DOM types available via default `esnext` lib), `cleanup`, `terser` (JS minify), `copy` (HTML +
+  CSS + `fonts/*.woff2`), `minifyStaticAssets` (clean-css + html-minifier-terser on the copied
+  files, in `writeBundle`). No `externals()` for the web bundle.
+- Fonts load lazily per style: `@font-face` rules are injected only for styles in use
+  (`ensureFontFaces`, called by `loadStyleFonts`) — browsers eagerly fetch the src of every rule
+  present, so boot downloads just the active style's few woff2 files, and a style switch pulls in
+  its faces on first use.
 - `package.json`: `rollup-plugin-copy` recorded in devDependencies (it was imported by
   `rollup.config.js` but missing from the manifest). No other dependencies.
 - `npm run build` builds both the library and the web app.
-- `../scripts/serve-web.mjs` sends `cache-control: no-store` so rebuilt bundles are served fresh.
+- `../scripts/serve-web.mjs` sends `cache-control: no-store` so rebuilt bundles are served fresh;
+  `fonts/` files are content-hashed by `npm run build:fonts`, so they are served `immutable` and
+  stay cacheable across bundle changes (the JS bundle no longer embeds font bytes).
 
 ## Export behavior
 
 - Export captures the full view representation (pyramid + legend) as one SVG.
 - SVG: standalone file with `xmlns` and explicit width/height.
-- PNG: rendered from the SVG data-URL onto a canvas at 2× with a white background (data-URL + system
-  fonts keep the canvas untainted).
+- PNG: rendered from the SVG data-URL onto a canvas at 2× with a white background. Export fonts are
+  fetched from the static `fonts/` files on demand and embedded as data URIs, which keeps the canvas
+  untainted and the export offline-faithful.
 
 ## URL behavior
 

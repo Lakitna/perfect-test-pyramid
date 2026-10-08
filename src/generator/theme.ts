@@ -6,7 +6,7 @@
 
 export type Theme = 'light' | 'dark';
 
-const STORAGE_KEY = 'test-pyr…heme';
+const STORAGE_KEY = 'test-pyramid-theme';
 
 export function isDarkMode(): boolean {
     return document.documentElement.dataset.theme === 'dark';
