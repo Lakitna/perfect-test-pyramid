@@ -366,7 +366,15 @@ export function canAddLayer(model: PyramidModel): boolean {
     return model.layers.length < MAX_LAYERS;
 }
 
-export const SHAPES = ['pyramid', 'inverted-pyramid', 'honeycomb', 'rectangle', 'trophy'] as const;
+export const SHAPES = [
+    'pyramid',
+    'inverted-pyramid',
+    'honeycomb',
+    'rectangle',
+    'trophy',
+    'eiffel-tower',
+    'inverted-eiffel-tower',
+] as const;
 export type ShapeName = (typeof SHAPES)[number];
 
 export const SHAPE_LABELS: Record<ShapeName, string> = {
@@ -375,6 +383,8 @@ export const SHAPE_LABELS: Record<ShapeName, string> = {
     honeycomb: 'Honeycomb',
     rectangle: 'Rectangle',
     trophy: 'Trophy',
+    'eiffel-tower': 'Eiffel tower',
+    'inverted-eiffel-tower': 'Inverted Eiffel tower',
 };
 
 /** Normalized width (0..1) of a shape at vertical position t (0 = top edge, 1 = bottom edge). */
@@ -396,6 +406,10 @@ function shapeProfile(shape: ShapeName, t: number): number {
                 return 1 - Math.abs(u - 0.5) * 2;
             }
             return 0.4 + ((t - 0.8) / 0.2) * 0.35;
+        case 'eiffel-tower':
+            return Math.pow(t, 2);
+        case 'inverted-eiffel-tower':
+            return 1 - (-Math.pow(t, 2) + 2 * t);
     }
 }
 
